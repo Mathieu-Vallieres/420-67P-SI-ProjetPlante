@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Plantomatic"
         tools:targetApi="31">
         <activity
+            android:name=".ActiviteAffichage"
+            android:exported="false" />
+        <activity
             android:name=".ActivitePrincipale"
             android:exported="true">
             <intent-filter>
