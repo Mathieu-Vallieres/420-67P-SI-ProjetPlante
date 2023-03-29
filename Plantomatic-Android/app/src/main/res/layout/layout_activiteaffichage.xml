@@ -6,4 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".ActiviteAffichage">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="146dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom Scientifique"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="341dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/humiditePresentement"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="406dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dernierArrosage"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="466dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

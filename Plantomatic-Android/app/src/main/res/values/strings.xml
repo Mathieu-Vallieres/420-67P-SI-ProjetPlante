@@ -7,4 +7,12 @@
     <string name="activiteModeManuel">Mode Manuel</string>
     <string name="activiteStatistiques">Statistiques</string>
     <string name="activiteParametres">Paramètres</string>
+    
+    <!--Activité affichage-->
+    <string name="humiditePresentement">Taux d\'humidité : </string>
+    <string name="dernierArrosage">Dernier arrosage le </string>
+
+    <!--Menu déroulant-->
+    <string name="ouvrirMenu">Ouvrir le menu</string>
+    <string name="fermerMenu">Fermer le menu</string>
 </resources>
