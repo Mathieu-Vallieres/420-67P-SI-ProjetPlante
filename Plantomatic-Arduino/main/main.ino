@@ -11,13 +11,20 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
 // Paramètres pour MQTT
-const char broker[] = "test.mosquitto.org";
-int        port     = 1883;
-const char topic[]  = "real_unique_topic";
+const char broker[] = BROKER_IP;
+int        port     = BROKER_PORT;
+const char sendDataTopic[]  = BROKER_TOPIC_SENDDATA;
+const char getDataTopic[]  = BROKER_TOPIC_GETDATA;
 
 // Temps avant envoie d'un nouveau message
 const long interval = 8000;
 unsigned long previousMillis = 0;
+
+enum commandType {
+  GET_HUMIDITY,
+  WATER,
+
+};
 
 int count = 0;
 
@@ -52,6 +59,34 @@ void setup() {
 
   Serial.println("Connexion au broker MQTT réussi !");
   Serial.println();
+
+  SetupMQTTSubscribe();
+
+
+}
+
+void SetupMQTTSubscribe() {
+  mqttClient.onMessage(OnMqttMessage);
+
+  mqttClient.subscribe(getDataTopic);
+}
+
+void OnMqttMessage(int messageSize) {
+  // Récupération du message que l'on reçois du réseau MQTT
+  String message = "";
+
+  while (mqttClient.available()) {
+    message += String((char)mqttClient.read());
+  }
+
+  /*void *h = dlopen(0, RTLD_NOW);
+  enum Day *day = dlsym(h, daystr);
+  if (day) printf("%s = %d\n", daystr, *day);
+  else printf("%s not found\n", daystr);*/
+
+  Serial.print(message);
+  Serial.println();
+  Serial.println();
 }
 
 void loop() {
@@ -69,11 +104,11 @@ void loop() {
     int rdmValue = analogRead(A0);
 
     Serial.print("Sending message to topic: ");
-    Serial.println(topic);
+    Serial.println(sendDataTopic);
     Serial.println(rdmValue);
 
     // Envoi des données sur le broker
-    mqttClient.beginMessage(topic);
+    mqttClient.beginMessage(sendDataTopic);
     mqttClient.print(rdmValue);
     mqttClient.endMessage();
 
