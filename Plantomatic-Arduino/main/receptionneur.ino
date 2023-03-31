@@ -28,6 +28,23 @@ void OnMqttMessage(int messageSize) {
     return;
   }
 
+  switch(cmd){
+    case NONE:
+      break;
+    case GET_HUMIDITY:
+      if(ledAllume){
+        digitalWrite(LED_BUILTIN,LOW);
+        Serial.println("LED Eteint"); 
+      }
+      else{
+        digitalWrite(LED_BUILTIN, HIGH);  
+        Serial.println("LED Allumee"); 
+      }
+  
+      ledAllume = !ledAllume;
+      break;
+  }
+
   Serial.println(message);
 }
 
