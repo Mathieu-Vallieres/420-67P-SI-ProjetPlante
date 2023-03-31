@@ -20,6 +20,7 @@ const char getDataTopic[]  = BROKER_TOPIC_GETDATA;
 // Temps avant envoie d'un nouveau message
 const long interval = 8000;
 unsigned long previousMillis = 0;
+bool ledAllume = false;
 
 int count = 0;
 
@@ -30,6 +31,7 @@ void setup() {
     ;
   }
 
+  pinMode(LED_BUILTIN, OUTPUT);
   ConnectWifi();
   ConnectBroker(mqttClient);
 
