@@ -15,4 +15,8 @@
     <!--Menu déroulant-->
     <string name="ouvrirMenu">Ouvrir le menu</string>
     <string name="fermerMenu">Fermer le menu</string>
+
+    <!--Activité principale-->
+    <string name="vosPlantes">Vos plantes :</string>
+    <string name="boutonAjout">+ Ajouter une plante</string>
 </resources>
