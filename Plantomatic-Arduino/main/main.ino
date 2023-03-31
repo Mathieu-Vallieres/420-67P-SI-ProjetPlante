@@ -1,6 +1,7 @@
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
 #include "arduino_secrets.h"
+#include "CommandType.h"
 
 // Configuration dans le fichier arduino_secrets.h
 char ssid[] = SECRET_SSID;
@@ -11,9 +12,10 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
 // Paramètres pour MQTT
-const char broker[] = "test.mosquitto.org";
-int        port     = 1883;
-const char topic[]  = "real_unique_topic";
+const char broker[] = BROKER_IP;
+int        port     = BROKER_PORT;
+const char sendDataTopic[]  = BROKER_TOPIC_SENDDATA;
+const char getDataTopic[]  = BROKER_TOPIC_GETDATA;
 
 // Temps avant envoie d'un nouveau message
 const long interval = 8000;
@@ -28,30 +30,10 @@ void setup() {
     ;
   }
 
-  // Connexion au réseau Wifi
-  Serial.print("Attempting to connect to WPA SSID: ");
-  Serial.println(ssid);
-  while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
-    // failed, retry
-    Serial.print(".");
-    delay(5000);
-  }
+  ConnectWifi();
+  ConnectBroker(mqttClient);
 
-  Serial.println("Connexion au réseau Wifi réussi !");
-  Serial.println();
-
-  Serial.print("En attente de connexion au broker: ");
-  Serial.println(broker);
-
-  if (!mqttClient.connect(broker, port)) {
-    Serial.print("Impossible de se connecter au broker MQTT, Code Erreur = ");
-    Serial.println(mqttClient.connectError());
-
-    while (1);
-  }
-
-  Serial.println("Connexion au broker MQTT réussi !");
-  Serial.println();
+  SetupMQTTSubscribe(mqttClient);
 }
 
 void loop() {
@@ -69,12 +51,13 @@ void loop() {
     int rdmValue = analogRead(A0);
 
     Serial.print("Sending message to topic: ");
-    Serial.println(topic);
+    Serial.println(sendDataTopic);
     Serial.println(rdmValue);
 
     // Envoi des données sur le broker
-    mqttClient.beginMessage(topic);
-    mqttClient.print(rdmValue);
+    mqttClient.beginMessage(sendDataTopic);
+    //mqttClient.print(rdmValue);
+    mqttClient.print("GET_HUMIDITY");
     mqttClient.endMessage();
 
     Serial.println();

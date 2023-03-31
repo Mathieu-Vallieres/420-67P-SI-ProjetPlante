@@ -12,6 +12,15 @@
         android:theme="@style/Theme.Plantomatic"
         tools:targetApi="31">
         <activity
+            android:name=".ActiviteParametres"
+            android:exported="false" />
+        <activity
+            android:name=".ActiviteModeManuel"
+            android:exported="false" />
+        <activity
+            android:name=".ActiviteStatistiques"
+            android:exported="false" />
+        <activity
             android:name=".ActiviteAffichage"
             android:exported="false" />
         <activity

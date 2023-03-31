@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_activitePrincipale"
+        android:title="@string/activitePrincipale" />
+    <item
+        android:id="@+id/item_activiteAffichage"
+        android:title="@string/activiteAffichage" />
+    <item
+        android:id="@+id/item_activiteStatistiques"
+        android:title="@string/activiteStatistiques" />
+    <item
+        android:id="@+id/item_activiteModeManuel"
+        android:title="@string/activiteModeManuel" />
+    <item
+        android:id="@+id/item_activiteParametres"
+        android:title="@string/activiteParametres" />
+</menu>
