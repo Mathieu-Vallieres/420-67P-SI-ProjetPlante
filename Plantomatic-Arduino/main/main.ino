@@ -1,6 +1,6 @@
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
-#include "arduino_secrets.h"
+#include "arduino_parameters.h"
 #include "CommandType.h"
 
 // Configuration dans le fichier arduino_secrets.h
@@ -49,18 +49,7 @@ void loop() {
     // Sauvegarde du dernier envoi
     previousMillis = currentMillis;
 
-    // Récupération d'une valeur aléatoire
-    int rdmValue = analogRead(A0);
-
-    Serial.print("Sending message to topic: ");
-    Serial.println(sendDataTopic);
-    Serial.println(rdmValue);
-
-    // Envoi des données sur le broker
-    mqttClient.beginMessage(sendDataTopic);
-    //mqttClient.print(rdmValue);
-    mqttClient.print("GET_HUMIDITY");
-    mqttClient.endMessage();
+    SendMQTTMessage("get_humidity");
 
     Serial.println();
   }

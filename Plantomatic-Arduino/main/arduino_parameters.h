@@ -10,3 +10,6 @@
 #define BROKER_TOPIC_SENDDATA "plantomatic_hygro"
 
 #define BROKER_TOPIC_GETDATA "plantomatic_hygro"//"plantomatic_cmd"
+
+// Écoulement de l'eau en ml par seconde
+#define FLOW_PER_SECOND = 10
