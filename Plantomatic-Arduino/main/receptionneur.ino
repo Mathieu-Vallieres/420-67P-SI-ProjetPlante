@@ -2,6 +2,8 @@
 CommandType ConvertMessageToEnum(String msg) {
   CommandType cmd = NONE;
 
+  msg.toUpperCase();
+
   if (msg == "GET_HUMIDITY") {
     cmd = GET_HUMIDITY;
   } else if (msg == "WATER") {
@@ -28,24 +30,29 @@ void OnMqttMessage(int messageSize) {
     return;
   }
 
-  switch(cmd){
+  switch(cmd) {
     case NONE:
       break;
     case GET_HUMIDITY:
+      int value;
+      value = analogRead(0);
+      Serial.print("Récupération de l'humidité : ");
+      Serial.println(value);
+      SendMQTTMessage(String(value));
+      break;
+    case WATER:
       if(ledAllume){
         digitalWrite(LED_BUILTIN,LOW);
         Serial.println("LED Eteint"); 
       }
-      else{
+      else {
         digitalWrite(LED_BUILTIN, HIGH);  
         Serial.println("LED Allumee"); 
       }
-  
+    
       ledAllume = !ledAllume;
       break;
   }
-
-  Serial.println(message);
 }
 
 // Fonction pour mettre en place le système d'écoute
