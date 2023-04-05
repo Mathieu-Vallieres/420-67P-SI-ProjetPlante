@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Plantomatic</string>
+    <string name="activitePrincipale">Home</string>
+    <string name="activiteAffichage">Details</string>
+    <string name="activiteModeManuel">Manual Mode</string>
+    <string name="activiteStatistiques">Statistics</string>
+    <string name="activiteParametres">Settings</string>
+    <string name="humiditePresentement">Humidity</string>
+    <string name="dernierArrosage">"Last watered on "</string>
+    <string name="ouvrirMenu">Open menu</string>
+    <string name="fermerMenu">Close menu</string>
+    <string name="vosPlantes">Your plants :</string>
+    <string name="boutonAjout">+ Add a plant</string>
+</resources>
