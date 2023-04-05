@@ -61,7 +61,7 @@ public class ActivitePrincipale extends AppCompatActivity {
                 {
                     case R.id.item_activitePrincipale:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentAccueil);
+                        //startActivity(intentAccueil);
                         break;
                     case R.id.item_activiteAffichage:
                         drawerLayout.closeDrawer(GravityCompat.START);
