@@ -1,16 +1,23 @@
-// Fonction pour convertir un message que l'on reçois du broker pour le convertir en command
+#include <ArduinoJson.h>
+
+// Fonction pour convertir un message que l'on reçois du broker pour le convertir en commande
 CommandType ConvertMessageToEnum(String msg) {
   CommandType cmd = NONE;
 
-  msg.toUpperCase();
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(msg);
 
-  if (msg == "GET_HUMIDITY") {
+  if(!root.success())
+    return cmd;
+
+  if (root["CMD"] == "GET_HUMIDITY") {
     cmd = GET_HUMIDITY;
-  } else if (msg == "WATER") {
+  } else if (root["CMD"] == "WATER") {
     cmd = WATER;
-  } else {
-    cmd = NONE;
   }
+
+  if(cmd != NONE)
+    Serial.println("Message reçu : " + msg);
 
   return cmd;
 }
@@ -24,6 +31,8 @@ void OnMqttMessage(int messageSize) {
     message += String((char)mqttClient.read());
   }
 
+  Serial.println("Message : " + message);
+
   CommandType cmd = ConvertMessageToEnum(message);
   if(cmd == NONE) { 
     Serial.print(message);
@@ -33,13 +42,15 @@ void OnMqttMessage(int messageSize) {
   switch(cmd) {
     case NONE:
       break;
+    // Quand on veut récupérer l'humidité de la plante
     case GET_HUMIDITY:
       int value;
       value = analogRead(0);
       Serial.print("Récupération de l'humidité : ");
       Serial.println(value);
-      SendMQTTMessage(String(value));
+      SendMQTTMessage("{\"RETURN_HUMIDITY\":\"" + String(value) + "\"}");
       break;
+    // Quand on veut arroser la plante
     case WATER:
       if(ledAllume){
         digitalWrite(LED_BUILTIN,LOW);
@@ -56,7 +67,9 @@ void OnMqttMessage(int messageSize) {
 }
 
 // Fonction pour mettre en place le système d'écoute
-void SetupMQTTSubscribe(MqttClient& client) {
-  client.onMessage(OnMqttMessage);
-  client.subscribe(getDataTopic);
+void SetupMQTTSubscribe() {
+  Serial.println("subscribe");
+
+  mqttClient.onMessage(OnMqttMessage);
+  mqttClient.subscribe(CMDTopic);
 }
