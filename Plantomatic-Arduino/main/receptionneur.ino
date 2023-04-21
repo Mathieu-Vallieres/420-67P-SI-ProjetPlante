@@ -1,19 +1,14 @@
 #include <ArduinoJson.h>
+#include <DHT22.h>
 
 // Fonction pour convertir un message que l'on reçois du broker pour le convertir en commande
-CommandType ConvertMessageToEnum(String msg) {
+CommandType ConvertStringToEnum(String msg) {
   CommandType cmd = NONE;
 
-  StaticJsonBuffer<200> jsonBuffer;
-  JsonObject& root = jsonBuffer.parseObject(msg);
-
-  if(!root.success())
-    return cmd;
-
-  if (root["CMD"] == "GET_HUMIDITY") {
-    cmd = GET_HUMIDITY;
-  } else if (root["CMD"] == "WATER") {
-    cmd = WATER;
+  if (msg == "HUMIDITE") {
+    cmd = HUMIDITE;
+  } else if (msg == "ARROSER") {
+    cmd = ARROSER;
   }
 
   if(cmd != NONE)
@@ -33,7 +28,17 @@ void OnMqttMessage(int messageSize) {
 
   Serial.println("Message : " + message);
 
-  CommandType cmd = ConvertMessageToEnum(message);
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(message);
+
+  if(json.success()) return;
+
+  CommandType cmd = ConvertStringToEnum(json["CMD"]);
+  int id = json["ID"].toInt();
+  TraiterMessage(id, cmd);
+}
+
+void TraiterMessage(int id, CommandType cmd) {
   if(cmd == NONE) { 
     Serial.print(message);
     return;
@@ -43,15 +48,20 @@ void OnMqttMessage(int messageSize) {
     case NONE:
       break;
     // Quand on veut récupérer l'humidité de la plante
-    case GET_HUMIDITY:
-      int value;
-      value = analogRead(0);
-      Serial.print("Récupération de l'humidité : ");
-      Serial.println(value);
-      SendMQTTMessage("{\"RETURN_HUMIDITY\":\"" + String(value) + "\"}");
+    case HUMIDITE:
+      {
+        DHT22 dht22(id);
+        float temperature = dht22.getTemperature();
+
+        Serial.print("t=");Serial.println(temperature);
+        Serial.print("Récupération de l'humidité : ");
+        Serial.println(temperature);
+        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"RETURN_HUMIDITY\":\"" + String(temperature, 1) + "\"}");
+      }
       break;
+
     // Quand on veut arroser la plante
-    case WATER:
+    case ARROSER:
       if(ledAllume){
         digitalWrite(LED_BUILTIN,LOW);
         Serial.println("LED Eteint"); 
