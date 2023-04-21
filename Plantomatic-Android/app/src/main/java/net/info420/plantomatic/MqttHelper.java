@@ -16,10 +16,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
 
-    final String serverUri = "tcp://m12.cloudmqtt.com:11111";
+    final String serverUri = "tcp://test.mosquitto.org:1883";
 
     final String clientId = "ExampleAndroidClient";
-    final String subscriptionTopic = "sensor/+";
+    final String subscriptionTopic = "plantomatic_hygro/return";
 
     public MqttHelper(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
