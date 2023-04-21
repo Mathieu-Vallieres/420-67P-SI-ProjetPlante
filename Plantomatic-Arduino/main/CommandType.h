@@ -1,13 +1,12 @@
 enum CommandType {
   NONE,
-  GET_HUMIDITY,
-  WATER,
-  CONFIGURE
+  HUMIDITE,
+  ARROSER
 };
 
 String CommandToString(CommandType type) {
   switch(type) {
-    case GET_HUMIDITY: return "GET_HUMIDITY";
-    case WATER: return "WATER";
+    case HUMIDITE: return "HUMIDITE";
+    case ARROSER: return "ARROSER";
   }
 }
