@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -36,6 +38,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
     ActionBarDrawerToggle actionBarDrawerToggle;
     Button boutonPhotoPlante;
     ImageView imageViewPhoto;
+    ImageButton boutonPoubelle;
 
     Intent intentAccueil;
     Intent intentDetails;
@@ -70,14 +73,17 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         navigationView = findViewById(R.id.menu_nav);
         boutonPhotoPlante = findViewById(R.id.boutonPhotoPlante);
         imageViewPhoto = findViewById(R.id.imageViewPhoto);
+        boutonPoubelle = findViewById(R.id.boutonPoubelle);
 
         boutonPhotoPlante.setOnClickListener(this);
+        boutonPoubelle.setOnClickListener(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.ouvrirMenu, R.string.fermerMenu);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -85,11 +91,11 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                 {
                     case R.id.item_activitePrincipale:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        //startActivity(intentAccueil);
+                        startActivity(intentAccueil);
                         break;
                     case R.id.item_activiteAffichage:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentDetails);
+                        //startActivity(intentDetails);
                         break;
                     case R.id.item_activiteStatistiques:
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -147,6 +153,13 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                 intentImage.setAction(Intent.ACTION_GET_CONTENT);
                 //Démarrage de l'activité
                 startActivityForResult(intentImage, code);
+                break;
+
+            case R.id.boutonPoubelle:
+
+                imageViewPhoto.setImageDrawable(getDrawable(R.drawable.camera_transparent));
+                Log.d(TAG, "bouton poubelle");
+
                 break;
         }
     }

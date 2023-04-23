@@ -9,6 +9,9 @@
     <string name="humiditePresentement">Humidity</string>
     <string name="dernierArrosage">"Last watered on "</string>
     <string name="prendrePhoto">Choose Picture</string>
+    <string name="humiditeMinimale">Water plant when humidity reaches (%)</string>
+    <string name="quantiteEau">Quantity of water to give (ml)</string>
+    <string name="nomPlante">Name</string>
     <string name="ouvrirMenu">Open menu</string>
     <string name="fermerMenu">Close menu</string>
     <string name="vosPlantes">Your plants :</string>
