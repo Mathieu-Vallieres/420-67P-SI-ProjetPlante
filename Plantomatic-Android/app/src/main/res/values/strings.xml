@@ -11,6 +11,7 @@
     <!--Activité affichage-->
     <string name="humiditePresentement">Taux d\'humidité : </string>
     <string name="dernierArrosage">Dernier arrosage le </string>
+    <string name="prendrePhoto">Choisir Photo</string>
 
     <!--Menu déroulant-->
     <string name="ouvrirMenu">Ouvrir le menu</string>

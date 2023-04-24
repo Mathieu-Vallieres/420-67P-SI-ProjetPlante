@@ -8,6 +8,7 @@
     <string name="activiteParametres">Settings</string>
     <string name="humiditePresentement">Humidity</string>
     <string name="dernierArrosage">"Last watered on "</string>
+    <string name="prendrePhoto">Choose Picture</string>
     <string name="ouvrirMenu">Open menu</string>
     <string name="fermerMenu">Close menu</string>
     <string name="vosPlantes">Your plants :</string>
