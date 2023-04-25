@@ -33,14 +33,16 @@ void OnMqttMessage(int messageSize) {
 
   if(json.success()) return;
 
+  
+  int id = int(json["ID"]);
   CommandType cmd = ConvertStringToEnum(json["CMD"]);
-  int id = json["ID"].toInt();
+  
   TraiterMessage(id, cmd);
 }
 
 void TraiterMessage(int id, CommandType cmd) {
   if(cmd == NONE) { 
-    Serial.print(message);
+    Serial.print(String(cmd));
     return;
   }
 
