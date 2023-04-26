@@ -34,29 +34,133 @@
                 app:srcCompat="@drawable/camera_transparent" />
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_height="203dp"
             android:background="@drawable/coins_arrondis"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.539"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/boutonPhotoPlante"
-            app:layout_constraintVertical_bias="0.296" />
+            app:layout_constraintVertical_bias="0.17">
+
+            <EditText
+                android:id="@+id/editTextNumber2"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/coins_arrondis"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumber4" />
+
+            <EditText
+                android:id="@+id/editTextNumber4"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="56dp"
+                android:background="@drawable/coins_arrondis"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="27dp"
+                android:text="@string/quantiteEau"
+                app:layout_constraintEnd_toStartOf="@+id/editTextNumber2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="22dp"
+                android:text="@string/humiditeMinimale"
+                app:layout_constraintEnd_toStartOf="@+id/editTextNumber4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="270dp"
+                android:layout_height="39dp"
+                android:layout_marginBottom="150dp"
+                android:background="@drawable/coins_arrondis"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text="@string/nomPlante"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/boutonPhotoPlante"
-            android:layout_width="233dp"
-            android:layout_height="67dp"
+            android:layout_width="155dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginEnd="3dp"
             android:layout_marginBottom="268dp"
             android:backgroundTint="@color/bleuCiel"
             android:text="@string/prendrePhoto"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/boutonIdentifier"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.428" />
+
+        <ImageButton
+            android:id="@+id/boutonPoubelle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/coins_arrondis"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/boutonIdentifier"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:srcCompat="@drawable/poubelle1" />
+
+        <ImageButton
+            android:id="@+id/boutonIdentifier"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/coins_arrondis"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/microscope"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toStartOf="@+id/boutonPoubelle"
+            app:layout_constraintStart_toEndOf="@+id/boutonPhotoPlante"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
