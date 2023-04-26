@@ -55,7 +55,7 @@ void loop() {
     previousMillis = currentMillis;
 
     //SendMQTTMessage("{\"CMD\":\"GET_HUMIDITY\"}");
-    //SendMQTTCommand(GET_HUMIDITY);
+    SendMQTTCommand(HUMIDITE);
 
     //Serial.println("");
     //Serial.println("");
