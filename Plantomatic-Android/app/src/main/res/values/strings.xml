@@ -11,8 +11,16 @@
     <!--Activité affichage-->
     <string name="humiditePresentement">Taux d\'humidité : </string>
     <string name="dernierArrosage">Dernier arrosage le </string>
+    <string name="prendrePhoto">Choisir Photo</string>
+    <string name="humiditeMinimale">Humidité minimale (%)</string>
+    <string name="quantiteEau">Eau par arrosage (ml)</string>
+    <string name="nomPlante">Nom</string>
 
     <!--Menu déroulant-->
     <string name="ouvrirMenu">Ouvrir le menu</string>
     <string name="fermerMenu">Fermer le menu</string>
+
+    <!--Activité principale-->
+    <string name="vosPlantes">Vos plantes :</string>
+    <string name="boutonAjout">+ Ajouter une plante</string>
 </resources>

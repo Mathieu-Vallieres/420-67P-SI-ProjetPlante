@@ -1,19 +1,13 @@
 package net.info420.plantomatic;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
@@ -68,7 +62,7 @@ public class ActivitePrincipale extends AppCompatActivity {
                 {
                     case R.id.item_activitePrincipale:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentAccueil);
+                        //startActivity(intentAccueil);
                         break;
                     case R.id.item_activiteAffichage:
                         drawerLayout.closeDrawer(GravityCompat.START);

@@ -11,4 +11,5 @@
 
     <color name="backGray">#FF535353</color>
     <color name="bleuCiel">#FFC1C1FF</color>
+    <color name="grisPale">#FFEAEAEA</color>
 </resources>
