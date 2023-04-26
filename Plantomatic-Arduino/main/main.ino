@@ -1,6 +1,6 @@
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
-#include "arduino_secrets.h"
+#include "arduino_parameters.h"
 #include "CommandType.h"
 
 // Configuration dans le fichier arduino_secrets.h
@@ -14,13 +14,17 @@ MqttClient mqttClient(wifiClient);
 // Paramètres pour MQTT
 const char broker[] = BROKER_IP;
 int        port     = BROKER_PORT;
-const char sendDataTopic[]  = BROKER_TOPIC_SENDDATA;
-const char getDataTopic[]  = BROKER_TOPIC_GETDATA;
+const char CMDTopic[]  = BROKER_TOPIC_CMD;
+const char RETURNTopic[]  = BROKER_TOPIC_RETURN;
 
 // Temps avant envoie d'un nouveau message
-const long interval = 8000;
+const long interval = 15000;
 unsigned long previousMillis = 0;
-bool ledAllume = false;
+
+unsigned long waterInterval = 50000;
+unsigned long previousWaterInterval = 0;
+
+bool ledAllume = false; // [TEMP]
 
 int count = 0;
 
@@ -33,9 +37,10 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
   ConnectWifi();
+
   ConnectBroker(mqttClient);
 
-  SetupMQTTSubscribe(mqttClient);
+  SetupMQTTSubscribe();
 }
 
 void loop() {
@@ -49,19 +54,15 @@ void loop() {
     // Sauvegarde du dernier envoi
     previousMillis = currentMillis;
 
-    // Récupération d'une valeur aléatoire
-    int rdmValue = analogRead(A0);
+    //SendMQTTMessage("{\"CMD\":\"GET_HUMIDITY\"}");
+    //SendMQTTCommand(GET_HUMIDITY);
 
-    Serial.print("Sending message to topic: ");
-    Serial.println(sendDataTopic);
-    Serial.println(rdmValue);
+    //Serial.println("");
+    //Serial.println("");
+    //Serial.println("");
+  }
 
-    // Envoi des données sur le broker
-    mqttClient.beginMessage(sendDataTopic);
-    //mqttClient.print(rdmValue);
-    mqttClient.print("GET_HUMIDITY");
-    mqttClient.endMessage();
-
-    Serial.println();
+  if(waterInterval - previousWaterInterval >= waterInterval) {
+    
   }
 }

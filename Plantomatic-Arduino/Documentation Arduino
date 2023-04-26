@@ -5,14 +5,23 @@ Projet utilisé par DFRobot
 https://community.dfrobot.com/makelog-312988.html
 
 Pièce requise pour faire notre projet:
-1 ESP32-E IoT Microcontroller
-1 Non-contact Capacitive Liquid Level Sensor
-1 Gravity: Analog Waterproof Soil Moisture Sensor
-1 Adjustable DC-DC Boost Converter
-1 Relay Module
-1 Solenoid Valve
-1 3D Housing
-1 Acrylic Sheet
-1 Water Container
-1 Irrigation Nozzle
-Nylon Cable Ties
+1 MKR1010 WIFI
+1 Capteur sans-contact de capacité de liquide
+1 Gravity: capteur d'humidité analogique de la terre imperméable 
+1 Convertisseur DC-DC ajustable
+1 Module de relais
+1 valve Solenoid
+1 Boite imprimer en 3D
+1 plateforme ou mettre le contenant d'eau
+1 Contenant d'eau
+1 Bouche d'irrigation
+plusieurs risselants
+
+
+MQTT:
+
+Version MQTT : 3, 3.1.1 ou 5
+Broker MQTT: "test.mosquitto.org"
+Port Broker: "1883"
+Sujet Broker: "plantomatic_hygro"
+
