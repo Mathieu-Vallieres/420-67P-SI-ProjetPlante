@@ -31,16 +31,17 @@ void OnMqttMessage(int messageSize) {
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(message);
 
-  if(json.success()) return;
+  if(!json.success()) return;
 
   CommandType cmd = ConvertStringToEnum(json["CMD"]);
-  int id = json["ID"].toInt();
+  String stringId = json["ID"];
+
+  int id = stringId.toInt();
   TraiterMessage(id, cmd);
 }
 
 void TraiterMessage(int id, CommandType cmd) {
   if(cmd == NONE) { 
-    Serial.print(message);
     return;
   }
 
@@ -50,24 +51,24 @@ void TraiterMessage(int id, CommandType cmd) {
     // Quand on veut récupérer l'humidité de la plante
     case HUMIDITE:
       {
-        DHT22 dht22(id);
-        float temperature = dht22.getTemperature();
+        DHT22 dht22(A0);
+        float temperature = dht22.getHumidity();
 
         Serial.print("t=");Serial.println(temperature);
         Serial.print("Récupération de l'humidité : ");
         Serial.println(temperature);
-        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"RETURN_HUMIDITY\":\"" + String(temperature, 1) + "\"}");
+        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"HUMIDITE\":\"" + String(temperature, 1) + "\"}");
       }
       break;
 
     // Quand on veut arroser la plante
     case ARROSER:
       if(ledAllume){
-        digitalWrite(LED_BUILTIN,LOW);
+        digitalWrite(A1,LOW);
         Serial.println("LED Eteint"); 
       }
       else {
-        digitalWrite(LED_BUILTIN, HIGH);  
+        digitalWrite(A1, HIGH);  
         Serial.println("LED Allumee"); 
       }
     

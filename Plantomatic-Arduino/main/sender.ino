@@ -16,6 +16,6 @@ void SendMQTTCommand(CommandType type) {
   Serial.println("trezad");
 
   mqttClient.beginMessage(CMDTopic);
-  mqttClient.print("{\"CMD\":\"" + CommandToString(type) + "\"}");
+  mqttClient.print("{CMD:" + CommandToString(type) + "}");
   mqttClient.endMessage();
 }
