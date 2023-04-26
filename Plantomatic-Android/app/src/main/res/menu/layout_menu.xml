@@ -6,12 +6,6 @@
         android:id="@+id/item_activitePrincipale"
         android:title="@string/activitePrincipale" />
     <item
-        android:id="@+id/item_activiteAffichage"
-        android:title="@string/activiteAffichage" />
-    <item
-        android:id="@+id/item_activiteStatistiques"
-        android:title="@string/activiteStatistiques" />
-    <item
         android:id="@+id/item_activiteModeManuel"
         android:title="@string/activiteModeManuel" />
     <item
