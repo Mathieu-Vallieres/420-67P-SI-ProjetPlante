@@ -5,7 +5,6 @@
     <string name="activitePrincipale">Accueil</string>
     <string name="activiteAffichage">Détails</string>
     <string name="activiteModeManuel">Mode Manuel</string>
-    <string name="activiteStatistiques">Statistiques</string>
     <string name="activiteParametres">Paramètres</string>
     
     <!--Activité affichage-->
@@ -23,4 +22,10 @@
     <!--Activité principale-->
     <string name="vosPlantes">Vos plantes :</string>
     <string name="boutonAjout">+ Ajouter une plante</string>
+
+    <!--Activité mode manuel-->
+    <string name="arrosage">Veuillez sélectionner une ou plusieurs plantes à arroser manuellement :</string>
+    <string name="arroser">Arroser</string>
+    <string name="quantiteMl">Eau versée (ml) :</string>
+
 </resources>
