@@ -44,7 +44,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
     Button boutonPhotoPlante;
     ImageView imageViewPhoto;
     ImageButton boutonPoubelle;
-    Button boutonEnregistrer;
+    ImageButton boutonEnregistrer;
 
     Intent intentAccueil;
     Intent intentDetails;
