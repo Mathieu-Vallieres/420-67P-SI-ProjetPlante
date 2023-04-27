@@ -110,7 +110,6 @@ public class ActivitePrincipale extends AppCompatActivity {
         boutonAjouterPlante = findViewById(R.id.boutonAjouterPlante);
         boutonAjouterPlante.setOnClickListener(v -> startActivity(intentDetails));
 
-
         //Population de la liste view avec les plantes de la bd
         listViewListePlantes = findViewById(R.id.listePlantes);
         curseur = this.getBD_Plantes().query();
@@ -124,11 +123,6 @@ public class ActivitePrincipale extends AppCompatActivity {
             intent.putExtra("id", id);
             startActivity(intent);
         });*/
-        BD_Plantes bd_plantes = new BD_Plantes(this);
-        Uri.Builder builder = new Uri.Builder();
-        builder.path("//foo");
-        Uri uri = builder.build();
-        bd_plantes.insert(uri,"Plante verte", 65,25);
     }
     private class MyViewBinder implements SimpleCursorAdapter.ViewBinder {
         @Override

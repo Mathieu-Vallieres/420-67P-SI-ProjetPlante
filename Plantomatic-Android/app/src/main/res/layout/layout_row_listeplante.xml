@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/row_listePlante_Nom"
-        android:layout_toEndOf="@id/row_listePlante_Image"/>
+        android:layout_toEndOf="@id/row_listePlante_Image"
+        android:textSize="30sp"/>
 
 </RelativeLayout>
