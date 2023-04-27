@@ -30,7 +30,6 @@ public class ActivitePrincipale extends AppCompatActivity {
 
     Intent intentAccueil;
     Intent intentDetails;
-    Intent intentStatistiques;
     Intent intentManuel;
     Intent intentParametres;
 
@@ -65,7 +64,6 @@ public class ActivitePrincipale extends AppCompatActivity {
         //Génération des intents pour les options du menu de navigation
         intentAccueil = new Intent(this, ActivitePrincipale.class);
         intentDetails = new Intent(this, ActiviteAffichage.class);
-        intentStatistiques = new Intent(this, ActiviteStatistiques.class);
         intentManuel = new Intent(this, ActiviteModeManuel.class);
         intentParametres = new Intent(this, ActiviteParametres.class);
 
@@ -84,14 +82,6 @@ public class ActivitePrincipale extends AppCompatActivity {
                     case R.id.item_activitePrincipale:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         //startActivity(intentAccueil);
-                        break;
-                    case R.id.item_activiteAffichage:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentDetails);
-                        break;
-                    case R.id.item_activiteStatistiques:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentStatistiques);
                         break;
                     case R.id.item_activiteModeManuel:
                         drawerLayout.closeDrawer(GravityCompat.START);

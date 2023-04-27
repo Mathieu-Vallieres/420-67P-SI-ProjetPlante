@@ -88,9 +88,9 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         boutonEnregistrer = findViewById(R.id.boutonEnregistrer);
         imageViewPhoto = findViewById(R.id.imageViewPhoto);
         boutonPoubelle = findViewById(R.id.boutonPoubelle);
-        editTextNomPlante = findViewById(R.id.editTextTextPersonName);
-        editTextHumidite = findViewById(R.id.editTextNumber4);
-        editTextQuantiteEau = findViewById(R.id.editTextNumber2);
+        editTextNomPlante = findViewById(R.id.editTextNomPlante);
+        editTextHumidite = findViewById(R.id.editTextHumidite);
+        editTextQuantiteEau = findViewById(R.id.editTextArrosage);
 
         //Ajout des listeners pour les éléments clickables (Boutons)
         boutonPhotoPlante.setOnClickListener(this);
