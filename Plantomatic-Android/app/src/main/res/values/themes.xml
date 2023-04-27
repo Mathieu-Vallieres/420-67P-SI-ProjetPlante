@@ -30,6 +30,8 @@
         <!--<item name="android:textColor">@color/white</item>-->
         <item name="android:statusBarColor">@color/bleuCiel</item>
 
+        <item name="android:windowAnimationStyle">@null</item>
+
     </style>
 
 </resources>
