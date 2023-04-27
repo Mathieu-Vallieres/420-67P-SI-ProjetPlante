@@ -16,6 +16,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+import org.json.JSONObject;
 
 public class ActiviteStatistiques extends AppCompatActivity {
     MqttHelper mqttHelper;
@@ -34,7 +35,7 @@ public class ActiviteStatistiques extends AppCompatActivity {
     private void startMqtt(){
         MqttMessage message = new MqttMessage();
         Context test = getApplicationContext();
-        message.setPayload("{CMD:GET_HUMIDITY}".getBytes());
+        message.setPayload("{ID:0,CMD:HUMIDITE}".getBytes());
 
         mqttHelper = new MqttHelper(test);
         mqttHelper.setCallback(new MqttCallbackExtended() {
@@ -62,12 +63,37 @@ public class ActiviteStatistiques extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Debug",mqttMessage.toString());
-                textView.setText(mqttMessage.toString());
+
+                String commande = decodeJson(mqttMessage.toString());
+
+                if (commande.contains("HUMIDITE"))
+                    textView.setText("Humidite actuel " + commande);
+                else if(commande.contains("ARROSER")){
+                    message.setPayload("{ID:0:CMD:ARROSER}".getBytes());
+                    mqttHelper.mqttAndroidClient.publish("plantomatic_hygro/cmd",message);
+
+                }
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
+            }
+
+            /**
+             * Focntion permettant de décodé la commande recu par MQTT
+             * @param messageMQTT le message recu
+             * @return la commande en String
+             * @throws Exception exception générale
+             */
+            public String decodeJson(String messageMQTT) throws Exception{
+
+                String jsonString = messageMQTT;
+                JSONObject obj = new JSONObject(jsonString);
+                String commande = obj.getJSONObject("CMD").getString("");
+                Log.d("commande: ",commande);
+
+                return commande;
             }
         });
     }

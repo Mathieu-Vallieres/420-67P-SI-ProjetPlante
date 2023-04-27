@@ -60,6 +60,4 @@ public class Plantomatic_MQTT {
             }
         });
     }
-
-    }
 }
