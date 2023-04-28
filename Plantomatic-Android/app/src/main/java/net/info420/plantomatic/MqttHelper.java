@@ -16,13 +16,15 @@ import org.json.JSONObject;
 
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
-
     final String serverUri = "tcp://test.mosquitto.org:1883";
-
     final String clientId = "ExampleAndroidClient";
     final String subscriptionTopic = "plantomatic_hygro/return";
     final String publishingTopic = "plantomatic_hygro/cmd";
 
+    /**
+     * Constructeur de la classe avec les callback a surdéfinir
+     * @param context le context de l'application
+     */
     public MqttHelper(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
@@ -30,33 +32,35 @@ public class MqttHelper {
             public void connectComplete(boolean b, String s) {
                 Log.w("mqtt", s);
             }
-
             @Override
             public void connectionLost(Throwable throwable) { }
-
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) {
                 Log.w("Mqtt", mqttMessage.toString());
             }
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) { }
-
-
         });
         connect();
     }
 
+    /**
+     * Méthode définissant les callbacks a définir quand l'objet se créé
+     * @param callback
+     */
     public void setCallback(MqttCallbackExtended callback) {
         mqttAndroidClient.setCallback(callback);
     }
 
+    /**
+     * Méthode pour se connecter au broker
+     */
     private void connect(){
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
 
         try {
-
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
@@ -82,6 +86,12 @@ public class MqttHelper {
         }
     }
 
+    /**
+     * Fonction pour décodé le JSON envoyé par l'arduino
+     * @param mqttMessage
+     * @return la commande sous forme de String
+     * @throws Exception
+     */
     public String decodeJSON(MqttMessage mqttMessage) throws Exception{
         String jsonString = mqttMessage.toString();
         JSONObject obj = new JSONObject(jsonString);
@@ -89,6 +99,9 @@ public class MqttHelper {
         return commande;
     }
 
+    /**
+     * Méthode pour souscrire au topic de l'arduino
+     */
     private void subscribeToTopic() {
         try {
             mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
@@ -109,7 +122,10 @@ public class MqttHelper {
         }
     }
 
-
+    /**
+     * Méthode pour écrire sur un topic
+     * @param commande la commande a envoyer sur le topic
+     */
     public void publishToTopic(String commande) {
         MqttMessage message = new MqttMessage();
         message.setPayload(commande.getBytes());
