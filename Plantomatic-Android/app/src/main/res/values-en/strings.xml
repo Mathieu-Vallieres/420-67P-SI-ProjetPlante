@@ -18,4 +18,5 @@
     <string name="arrosage">Please select one or more plants to water manually :</string>
     <string name="arroser">Water now</string>
     <string name="quantiteMl">Water poured (ml) :</string>
+    <string name="themeSombre">Dark Mode</string>
 </resources>
