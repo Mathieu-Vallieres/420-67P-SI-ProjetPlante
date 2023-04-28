@@ -12,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
 
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
@@ -20,6 +21,7 @@ public class MqttHelper {
 
     final String clientId = "ExampleAndroidClient";
     final String subscriptionTopic = "plantomatic_hygro/return";
+    final String publishingTopic = "plantomatic_hygro/cmd";
 
     public MqttHelper(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
@@ -30,19 +32,16 @@ public class MqttHelper {
             }
 
             @Override
-            public void connectionLost(Throwable throwable) {
-
-            }
+            public void connectionLost(Throwable throwable) { }
 
             @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+            public void messageArrived(String topic, MqttMessage mqttMessage) {
                 Log.w("Mqtt", mqttMessage.toString());
             }
-
             @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) { }
 
-            }
+
         });
         connect();
     }
@@ -83,6 +82,12 @@ public class MqttHelper {
         }
     }
 
+    public String decodeJSON(MqttMessage mqttMessage) throws Exception{
+        String jsonString = mqttMessage.toString();
+        JSONObject obj = new JSONObject(jsonString);
+        String commande = obj.getString("HUMIDITE");
+        return commande;
+    }
 
     private void subscribeToTopic() {
         try {
@@ -101,6 +106,18 @@ public class MqttHelper {
         } catch (MqttException ex) {
             System.err.println("Exception whilst subscribing");
             ex.printStackTrace();
+        }
+    }
+
+    public void publishToTopic(String commande){
+        MqttMessage message = new MqttMessage();
+        message.setPayload(commande.getBytes());
+
+        try{
+            mqttAndroidClient.publish(publishingTopic, message);
+        }catch (MqttException exception){
+            System.err.println("Exception lors de l'envoi du message");
+            exception.printStackTrace();
         }
     }
 }
