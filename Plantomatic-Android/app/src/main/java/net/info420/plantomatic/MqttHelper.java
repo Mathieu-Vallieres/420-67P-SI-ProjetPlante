@@ -109,6 +109,7 @@ public class MqttHelper {
         }
     }
 
+<<<<<<< Updated upstream
     public void publishToTopic(String commande){
         MqttMessage message = new MqttMessage();
         message.setPayload(commande.getBytes());
@@ -119,5 +120,10 @@ public class MqttHelper {
             System.err.println("Exception lors de l'envoi du message");
             exception.printStackTrace();
         }
+=======
+    public publishToTopic(String commande){
+
+        
+>>>>>>> Stashed changes
     }
 }
