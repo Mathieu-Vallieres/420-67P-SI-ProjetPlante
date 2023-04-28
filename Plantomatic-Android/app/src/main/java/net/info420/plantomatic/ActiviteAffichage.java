@@ -30,6 +30,12 @@ import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class ActiviteAffichage extends AppCompatActivity implements View.OnClickListener{
 
     public final String TAG = "affichage";
@@ -51,6 +57,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
     Intent intentStatistiques;
     Intent intentManuel;
     Intent intentParametres;
+    Intent intentImage;
 
     //Variables pour la savegarde du résultat dans la bd
     private Uri imageUri;
@@ -80,6 +87,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         intentDetails = new Intent(this, ActiviteAffichage.class);
         intentManuel = new Intent(this, ActiviteModeManuel.class);
         intentParametres = new Intent(this, ActiviteParametres.class);
+
 
         //Assignation des variables pour les éléments du layout
         drawerLayout = findViewById(R.id.drawer);
@@ -149,6 +157,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
 
 
     //Listener pour les éléments clickables de l'interface
+    @SuppressLint("WrongConstant")
     @Override
     public void onClick(View view)
     {
@@ -162,7 +171,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                 int code = 1;
 
                 //Création d'un intent qui invoquera un menu de sélection
-                Intent intentImage = new Intent();
+                intentImage = new Intent();
                 //Seules les images pourront être sélectionnées
                 intentImage.setType("image/*");
                 intentImage.setAction(Intent.ACTION_GET_CONTENT);
@@ -184,15 +193,37 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                     NomPlante = editTextNomPlante.getText().toString();
                     humidite = Integer.parseInt(editTextHumidite.getText().toString());
                     quantiteEau = Integer.parseInt(editTextQuantiteEau.getText().toString());
-                    if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau < 0){
+                    if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau > 0 && humidite > 0) {
                         Log.d(TAG, "Ajout de la plante");
+                        //Téléversement de la photo dans le dossier cache de l'app
+                        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                        File file = new File(getCacheDir(), NomPlante + ".jpg");
+                        FileOutputStream fileOutputStream = new FileOutputStream(file);
+                        Uri uriImage = Uri.parse(getCacheDir() + "/" + NomPlante + ".jpg");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = inputStream.read(buffer)) > 0) {
+                            fileOutputStream.write(buffer, 0, length);
+                        }
+
+                        fileOutputStream.flush();
+                        fileOutputStream.close();
+                        inputStream.close();
+
+                        //Ajout des plantes dans la bd
                         BD_Plantes bd_plantes = new BD_Plantes(this);
-                        bd_plantes.insert(imageUri,NomPlante, humidite,quantiteEau);
+                        bd_plantes.insert(uriImage,NomPlante, humidite,quantiteEau);
+                        startActivity(intentAccueil);
                     } else {
                         Log.d(TAG, "Erreur lors de l'ajout de la plante, un champ est invalide");
                     }
                 } catch (SQLiteException e) {
                     Log.e(TAG, "Erreur [SQLITE] lors de l'ajout de la plante : " + e.getMessage());
+                    throw new RuntimeException(e);
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "Erreur [Image] lors de l'ajout de la plante : " + e.getMessage());
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 break;
