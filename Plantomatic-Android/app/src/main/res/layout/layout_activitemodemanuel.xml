@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/imageplante">
+        android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/listePlantes"
@@ -42,7 +41,6 @@
             android:layout_width="233dp"
             android:layout_height="67dp"
             android:backgroundTint="@color/bleuCiel"
-            android:enabled="false"
             android:text="@string/arroser"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,9 +70,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/coins_arrondis"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/controleAdaptatif"
             android:gravity="center"
             android:text="@string/quantiteMl"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/boutonAjouterPlante"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

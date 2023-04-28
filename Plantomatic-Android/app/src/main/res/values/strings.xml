@@ -28,4 +28,7 @@
     <string name="arroser">Arroser</string>
     <string name="quantiteMl">Eau versée (ml) :</string>
 
+    <!--Activité paramètres-->
+    <string name="themeSombre">Mode Sombre</string>
+
 </resources>

@@ -5,21 +5,21 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/coins_arrondis"
     tools:context=".ActiviteAffichage">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/imageplante">
+        android:layout_height="match_parent">
+        <!--
+        android:background="@drawable/imageplante"-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_marginTop="50dp"
-            android:backgroundTint="@color/grisPale"
+            android:backgroundTint="@color/grisAdaptatif"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/coins_arrondis"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/controleAdaptatif"
                 android:ems="10"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="56dp"
                 android:background="@drawable/coins_arrondis"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/controleAdaptatif"
                 android:ems="10"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
                 android:layout_height="39dp"
                 android:layout_marginBottom="150dp"
                 android:background="@drawable/coins_arrondis"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/controleAdaptatif"
                 android:ems="10"
                 android:inputType="text"
                 android:singleLine="true"
@@ -169,12 +169,18 @@
             android:id="@+id/boutonEnregistrer"
             android:layout_width="65dp"
             android:layout_height="65dp"
+            android:layout_marginStart="340dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
             android:background="@drawable/coins_arrondis"
             android:backgroundTint="@color/bleuCiel"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/disquette"
-            tools:layout_editor_absoluteX="340dp"
-            tools:layout_editor_absoluteY="660dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:srcCompat="@drawable/disquette" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
