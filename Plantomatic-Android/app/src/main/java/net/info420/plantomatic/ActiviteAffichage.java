@@ -184,7 +184,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                     NomPlante = editTextNomPlante.getText().toString();
                     humidite = Integer.parseInt(editTextHumidite.getText().toString());
                     quantiteEau = Integer.parseInt(editTextQuantiteEau.getText().toString());
-                    if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau < 0){
+                    if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau > 0){
                         Log.d(TAG, "Ajout de la plante");
                         BD_Plantes bd_plantes = new BD_Plantes(this);
                         bd_plantes.insert(imageUri,NomPlante, humidite,quantiteEau);

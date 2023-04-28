@@ -8,8 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
     <color name="backGray">#FF535353</color>
     <color name="bleuCiel">#FFC1C1FF</color>
     <color name="grisPale">#FFEAEAEA</color>
+    <color name="grisFonce">#FF666666</color>
+    <color name="grisControleNuit">#FFA1A1A1</color>
+
+    <color name="grisAdaptatif">#FFEAEAEA</color>
+    <color name="controleAdaptatif">#FFFFFFFF</color>
+
 </resources>
