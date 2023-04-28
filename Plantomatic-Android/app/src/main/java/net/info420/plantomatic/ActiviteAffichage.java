@@ -217,6 +217,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                     quantiteEau = Integer.parseInt(editTextQuantiteEau.getText().toString());
                     if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau > 0 && humidite > 0) {
                         Log.d(TAG, "Ajout de la plante");
+
                         //Téléversement de la photo dans le dossier cache de l'app
                         InputStream inputStream = getContentResolver().openInputStream(imageUri);
                         File file = new File(getCacheDir(), NomPlante + ".jpg");
