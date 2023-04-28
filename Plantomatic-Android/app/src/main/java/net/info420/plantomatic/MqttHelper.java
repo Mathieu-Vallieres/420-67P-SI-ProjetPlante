@@ -109,21 +109,16 @@ public class MqttHelper {
         }
     }
 
-<<<<<<< Updated upstream
-    public void publishToTopic(String commande){
+
+    public void publishToTopic(String commande) {
         MqttMessage message = new MqttMessage();
         message.setPayload(commande.getBytes());
 
-        try{
+        try {
             mqttAndroidClient.publish(publishingTopic, message);
-        }catch (MqttException exception){
+        } catch (MqttException exception) {
             System.err.println("Exception lors de l'envoi du message");
             exception.printStackTrace();
         }
-=======
-    public publishToTopic(String commande){
-
-        
->>>>>>> Stashed changes
     }
 }
