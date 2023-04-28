@@ -1,14 +1,25 @@
 package net.info420.plantomatic;
 
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.os.Bundle;
@@ -16,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -32,6 +44,8 @@ public class ActivitePrincipale extends AppCompatActivity {
     Intent intentDetails;
     Intent intentManuel;
     Intent intentParametres;
+    Intent intentPermission = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+
 
     //Bouton pour ajouter une plante -> Redirige vers détails
     Button boutonAjouterPlante;
@@ -60,6 +74,8 @@ public class ActivitePrincipale extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activiteprincipale);
+
+
 
         //Génération des intents pour les options du menu de navigation
         intentAccueil = new Intent(this, ActivitePrincipale.class);
@@ -114,6 +130,7 @@ public class ActivitePrincipale extends AppCompatActivity {
             startActivity(intent);
         });*/
     }
+
     private class MyViewBinder implements SimpleCursorAdapter.ViewBinder {
         @Override
         public boolean setViewValue(View view, Cursor cursor, int fieldIndex) {
