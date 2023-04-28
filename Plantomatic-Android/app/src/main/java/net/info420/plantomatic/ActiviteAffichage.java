@@ -100,6 +100,28 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         editTextHumidite = findViewById(R.id.editTextHumidite);
         editTextQuantiteEau = findViewById(R.id.editTextArrosage);
 
+        //Mettre les données en cas de modification
+        Bundle extras = getIntent().getExtras();
+        if(extras != null)
+        {
+            int idPlante = extras.getInt("idPlante");
+            String nomPlante = extras.getString("nomPlante");
+            int humidite = extras.getInt("humidity");
+            int quantiteEau = extras.getInt("mlEau");
+            String uri = extras.getString("imagePlante");
+
+            editTextNomPlante.setText(nomPlante);
+            editTextHumidite.setText(String.valueOf(humidite));
+            editTextQuantiteEau.setText(String.valueOf(quantiteEau));
+
+            if(uri != null)
+            {
+                imageUri = Uri.parse(uri);
+                imageViewPhoto.setImageURI(imageUri);
+            }
+        }
+
+
         //Ajout des listeners pour les éléments clickables (Boutons)
         boutonPhotoPlante.setOnClickListener(this);
         boutonPoubelle.setOnClickListener(this);

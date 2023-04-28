@@ -75,8 +75,6 @@ public class ActivitePrincipale extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activiteprincipale);
 
-
-
         //Génération des intents pour les options du menu de navigation
         intentAccueil = new Intent(this, ActivitePrincipale.class);
         intentDetails = new Intent(this, ActiviteAffichage.class);
@@ -92,7 +90,6 @@ public class ActivitePrincipale extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId())
                 {
                     case R.id.item_activitePrincipale:
@@ -123,12 +120,18 @@ public class ActivitePrincipale extends AppCompatActivity {
         viewBinder = new MyViewBinder();
         adapteur.setViewBinder(viewBinder);
         listViewListePlantes.setAdapter(adapteur);
-        /*listViewListePlantes.setOnItemClickListener((parent, view, position, id) -> {
+
+        listViewListePlantes.setOnItemClickListener((parent, view, position, id) -> {
             Log.i("ActivitePrincipale", "Position: " + position + " id: " + id);
             Intent intent = new Intent(this, ActiviteAffichage.class);
-            intent.putExtra("id", id);
+            Cursor c = (Cursor) listViewListePlantes.getItemAtPosition(position);
+            intent.putExtra("idPlante", c.getInt(c.getColumnIndex(BD_Plantes.C_ID)));
+            intent.putExtra("nomPlante", c.getString(c.getColumnIndex(BD_Plantes.C_NOMPLANTE)));
+            intent.putExtra("imagePlante", c.getString(c.getColumnIndex(BD_Plantes.C_IMAGE)));
+            intent.putExtra("humidity", c.getString(c.getColumnIndex(BD_Plantes.C_HUMIDITY)));
+            intent.putExtra("mlEau", c.getString(c.getColumnIndex(BD_Plantes.C_ML_EAU)));
             startActivity(intent);
-        });*/
+        });
     }
 
     private class MyViewBinder implements SimpleCursorAdapter.ViewBinder {

@@ -52,6 +52,15 @@ public class BD_Plantes {
         cursor = db.query(TABLE_NAME, null, null, null, null, null, C_ID + " DESC");
         return cursor;
     }
+
+    public Cursor query(String id){
+        Cursor cursor;
+        db = dbHelper.getReadableDatabase();
+
+        cursor = db.query(TABLE_NAME, null, id, null, null, null, C_ID + " DESC");
+        return cursor;
+    }
+
     private class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper() {
