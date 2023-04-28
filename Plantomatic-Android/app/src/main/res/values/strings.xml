@@ -30,5 +30,7 @@
 
     <!--Activité paramètres-->
     <string name="themeSombre">Mode Sombre</string>
+    <string name="paramUsine">Rétablir l\'application aux paramètres par défaut</string>
+    <string name="modeDemo">Mode démo</string>
 
 </resources>

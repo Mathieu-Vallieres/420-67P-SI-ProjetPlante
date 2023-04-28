@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ListPreference
-        android:defaultValue="0"
-        android:entries="@array/langue"
-        android:entryValues="@array/valeursLangue"
-        android:key="list_preference_1"
-        android:title="List preference" />
+    <CheckBoxPreference
+        android:key="demo"
+        android:title="@string/modeDemo"
+        android:visibility="visible" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="usine"
+        android:title="@string/paramUsine" />
 </PreferenceScreen>

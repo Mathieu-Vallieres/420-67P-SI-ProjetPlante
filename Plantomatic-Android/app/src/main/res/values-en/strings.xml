@@ -19,4 +19,6 @@
     <string name="arroser">Water now</string>
     <string name="quantiteMl">Water poured (ml) :</string>
     <string name="themeSombre">Dark Mode</string>
+    <string name="paramUsine">Reset application settings</string>
+    <string name="modeDemo">Demo mode</string>
 </resources>

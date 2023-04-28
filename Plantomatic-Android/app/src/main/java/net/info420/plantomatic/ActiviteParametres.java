@@ -6,14 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.File;
 
 public class ActiviteParametres extends AppCompatActivity {
 
@@ -21,10 +29,15 @@ public class ActiviteParametres extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
+    PreferenceFragmentPlantomatic preferenceFragmentPlantomatic;
+
     Intent intentAccueil;
     Intent intentDetails;
     Intent intentManuel;
     Intent intentParametres;
+    Preference prefUsine;
+
+    public static final String TAG = "Parametres";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +82,47 @@ public class ActiviteParametres extends AppCompatActivity {
             }
         });
 
-        getFragmentManager().beginTransaction().add(R.id.fragmentParametres, new MyPreferenceFragment()).commit();
+        preferenceFragmentPlantomatic = new PreferenceFragmentPlantomatic();
+
+        getFragmentManager().beginTransaction().add(R.id.fragmentParametres, preferenceFragmentPlantomatic).commit();
+
 
     }
 
-    public static class MyPreferenceFragment extends PreferenceFragment
+    @Override
+    public void onPostCreate(Bundle savedIstanceState)
+    {
+        super.onPostCreate(savedIstanceState);
+
+        prefUsine = preferenceFragmentPlantomatic.findPreference("usine");
+
+        prefUsine.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                getApplicationContext().deleteDatabase("/data/data/net.info420.plantomatic/databases/plantomatic.db");
+                Log.d(TAG,"Base de données supprimée avec succès");
+
+                return true;
+            }
+        });
+    }
+
+    private void deleteFiles(File dir){
+        if (dir != null){
+            if (dir.listFiles() != null && dir.listFiles().length > 0){
+                // RECURSIVELY DELETE FILES IN DIRECTORY
+                for (File file : dir.listFiles()){
+                    deleteFiles(file);
+                }
+            } else {
+                // JUST DELETE FILE
+                dir.delete();
+            }
+        }
+    }
+
+    public static class PreferenceFragmentPlantomatic extends PreferenceFragment
     {
         @Override
         public void onCreate(Bundle savedInstanceState)
