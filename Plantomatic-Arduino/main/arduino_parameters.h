@@ -1,8 +1,8 @@
 // Nom du réseau (SSID)
-#define SECRET_SSID "HUAWEI"
+#define SECRET_SSID "Externe"
 
 // Mot de passe du réseau (PASSWORD)
-#define SECRET_PASS "bca95ccba78"
+#define SECRET_PASS "Education2523"
 
 // Ip du broker
 #define BROKER_IP "test.mosquitto.org"
