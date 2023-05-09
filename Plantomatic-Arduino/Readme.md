@@ -20,8 +20,13 @@ plusieurs risselants
 
 MQTT:
 
-Version MQTT : 3, 3.1.1 ou 5
+Version MQTT : 5
 Broker MQTT: "test.mosquitto.org"
 Port Broker: "1883"
-Sujet Broker: "plantomatic_hygro"
-
+Sujet Broker: 
+"plantomatic_hygro/CMD"
+  publisheur: Android
+  Subscribeur: Arduino
+"plantomatic_hygro/RETURN"
+  publisheur: Arduino
+  Subscribeur: Android
