@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/boutonAjouterPlante"
+            android:id="@+id/btnAjouterPlante"
             android:layout_width="233dp"
             android:layout_height="67dp"
             android:backgroundTint="@color/bleuCiel"
@@ -74,7 +74,7 @@
             android:gravity="center"
             android:text="@string/quantiteMl"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/boutonAjouterPlante"
+            app:layout_constraintBottom_toTopOf="@+id/btnAjouterPlante"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listePlantes" />
