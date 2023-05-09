@@ -1,5 +1,6 @@
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
+
 #include "arduino_parameters.h"
 #include "CommandType.h"
 #include "pinStruct.h"
@@ -20,10 +21,15 @@ const char CMDTopic[]  = BROKER_TOPIC_CMD;
 const char RETURNTopic[]  = BROKER_TOPIC_RETURN;
 
 // Temps avant envoie d'un nouveau message
-const long interval = 15000;
-unsigned long previousMillis = 0;
+const long intervalHumidite = 15000;
+unsigned long long previousHumiditeMillis = 0;
+
+unsigned long long previous1SecondMillis = 0;
+unsigned long long tempsEntreChaqueArrosage = 30;
+int dureeArrosage = 10;
 
 Dictionary<int, pinStruct> pinDico;
+Dictionary<int, unsigned long long> autoArrosage;
 
 void setup() {
   Serial.begin(9600);
@@ -31,6 +37,8 @@ void setup() {
   while (!Serial) {
     ;
   }
+
+  pinMode(11, OUTPUT);
 
   SetupPins();
 
@@ -45,19 +53,45 @@ void loop() {
   // Permet de garder la connexion en vie pour la durée de fonctionnement du programme
   mqttClient.poll();
 
-  unsigned long currentMillis = millis();
+  unsigned long long currentMillis = millis();
 
   // Envoi des messages à un intervalle X
-  if (currentMillis - previousMillis >= interval) {
+  if (currentMillis - previousHumiditeMillis >= intervalHumidite) {
     // Sauvegarde du dernier envoi
-    previousMillis = currentMillis;
+    previousHumiditeMillis = currentMillis;
 
     SendMQTTCommand(0, HUMIDITE);
+  }
+
+  if(currentMillis - previous1SecondMillis >= 1000) {
+    previous1SecondMillis = currentMillis;
+
+    LinkedList<int> keys = autoArrosage.GetKeys();
+    for(int i = 0; i < keys.size(); i++) {
+      unsigned long time = autoArrosage.get(keys.get(i)) + 1;
+      Serial.println("For id : " + String(keys.get(i)) + " | time : " + String(time));
+
+      // On peut lancer l'arrosage
+      if(time >= tempsEntreChaqueArrosage) {
+        pinStruct pStruct = pinDico.get(keys.get(i));
+
+        // On démarre l'arrosage
+        if(time == tempsEntreChaqueArrosage) {
+          digitalWrite(pStruct.pompeAnalog, HIGH);
+        }
+
+        // L'arrosage est terminé
+        if(time - tempsEntreChaqueArrosage >= dureeArrosage) {
+          digitalWrite(pStruct.pompeAnalog, LOW);
+          time = 0;
+        }
+      }
+
+      autoArrosage.set(keys.get(i), time);
+    }
   }
 }
 
 void SetupPins() {
-  pinDico.set(0, {0, A0, A1, false});
-  pinDico.set(1, {1, A2, A3, false});
-  pinDico.set(2, {2, A4, A5, false});
+  pinDico.set(0, {0, A0, 11, false});
 }

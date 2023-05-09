@@ -7,8 +7,14 @@ CommandType ConvertStringToEnum(String msg) {
 
   if (msg == "HUMIDITE") {
     cmd = HUMIDITE;
-  } else if (msg == "ARROSER") {
-    cmd = ARROSER;
+  } else if (msg == "ARROSER_ON") {
+    cmd = ARROSER_ON;
+  } else if (msg == "ARROSER_OFF") {
+    cmd = ARROSER_OFF;
+  } else if (msg == "ARROSER_AUTO_ON") {
+    cmd = ARROSER_AUTO_ON;
+  } else if (msg == "ARROSER_AUTO_OFF") {
+    cmd = ARROSER_AUTO_OFF;
   }
 
   if(cmd != NONE)
@@ -54,30 +60,47 @@ void TraiterMessage(int id, CommandType cmd) {
     // Quand on veut récupérer l'humidité de la plante
     case HUMIDITE:
       {
-        DHT22 dht22(pStruct.capteurAnalog);
-        float temperature = dht22.getHumidity();
-
+        float humidite = analogRead(pStruct.capteurAnalog);
+        int rValue = 0;
         Serial.print("Récupération de l'humidité : ");
-        Serial.println(temperature);
-        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"HUMIDITE\":\"" + String(temperature, 1) + "\"}");
-      }
-      break;
-
-    // Quand on veut arroser la plante
-    case ARROSER:
-      {
-        Serial.println(pStruct.enabled);
-
-        if(pStruct.enabled) {
-          Serial.println("Lampe eteinte");
-          digitalWrite(pStruct.pompeAnalog, LOW);
-        } else {
-          Serial.println("Lampe allumé");
-          digitalWrite(pStruct.pompeAnalog, HIGH);
+        Serial.println(humidite);
+        if(humidite >= 190 && humidite < 380)
+        {
+          rValue = 1;
         }
 
-        pStruct.enabled = !pStruct.enabled;
-        pinDico.set(id, pStruct);
+        if(humidite >= 380)
+        {
+          rValue = 2;
+        }
+        Serial.println(rValue);
+        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"HUMIDITE\":\"" + String(rValue) + "\"}");
+      }
+      break;
+    // Quand on veut arroser la plante
+    case ARROSER_ON:
+      {
+        digitalWrite(pStruct.pompeAnalog, HIGH);
+        // On met le temps de l'arrosage automatique sur l'identifiant de la plante
+        autoArrosage.set(id, 0);
+      }
+      break;
+    case ARROSER_OFF:
+      {
+        digitalWrite(pStruct.pompeAnalog, LOW);
+        // On met le temps de l'arrosage automatique sur l'identifiant de la plante
+        autoArrosage.set(id, 0);
+      }
+      break;
+    case ARROSER_AUTO_ON:
+      {
+        Serial.println("ARROSER_AUTO_ON");
+        autoArrosage.add(id, 0);
+      }
+      break;
+    case ARROSER_AUTO_OFF:
+      {
+        autoArrosage.remove(id);
       }
       break;
   }
