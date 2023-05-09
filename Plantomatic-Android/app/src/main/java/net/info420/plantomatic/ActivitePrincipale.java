@@ -1,24 +1,14 @@
 package net.info420.plantomatic;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,11 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-
-import java.net.URI;
 
 public class ActivitePrincipale extends AppCompatActivity {
 
@@ -110,7 +97,7 @@ public class ActivitePrincipale extends AppCompatActivity {
         });
 
         //Bouton pour ajouter une plante -> Redirige vers détails
-        boutonAjouterPlante = findViewById(R.id.boutonAjouterPlante);
+        boutonAjouterPlante = findViewById(R.id.btnAjouterPlante);
         boutonAjouterPlante.setOnClickListener(v -> startActivity(intentDetails));
 
         //Population de la liste view avec les plantes de la bd

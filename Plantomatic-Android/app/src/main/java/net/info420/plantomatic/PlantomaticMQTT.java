@@ -114,6 +114,15 @@ public class PlantomaticMQTT {
         JSONObject object = new JSONObject(jsonString);
         String humidite = object.getString("HUMIDITE");
 
-        return humidite;
+        switch(humidite){
+            case "0":
+                return "Humide";
+            case "1":
+                return "Sec";
+            case "2":
+                return "Très sec";
+            default:
+                return "Indisponible";
+        }
     }
 }
