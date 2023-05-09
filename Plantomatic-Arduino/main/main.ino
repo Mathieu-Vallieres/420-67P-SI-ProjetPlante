@@ -2,6 +2,8 @@
 #include <WiFiNINA.h>
 #include "arduino_parameters.h"
 #include "CommandType.h"
+#include "pinStruct.h"
+#include "Dictionary.h"
 
 // Configuration dans le fichier arduino_secrets.h
 char ssid[] = SECRET_SSID;
@@ -21,12 +23,7 @@ const char RETURNTopic[]  = BROKER_TOPIC_RETURN;
 const long interval = 15000;
 unsigned long previousMillis = 0;
 
-unsigned long waterInterval = 50000;
-unsigned long previousWaterInterval = 0;
-
-bool ledAllume = false; // [TEMP]
-
-int count = 0;
+Dictionary<int, pinStruct> pinDico;
 
 void setup() {
   Serial.begin(9600);
@@ -35,7 +32,8 @@ void setup() {
     ;
   }
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  SetupPins();
+
   ConnectWifi();
 
   ConnectBroker(mqttClient);
@@ -54,15 +52,12 @@ void loop() {
     // Sauvegarde du dernier envoi
     previousMillis = currentMillis;
 
-    //SendMQTTMessage("{\"CMD\":\"GET_HUMIDITY\"}");
-    SendMQTTCommand(HUMIDITE);
-
-    //Serial.println("");
-    //Serial.println("");
-    //Serial.println("");
+    SendMQTTCommand(0, HUMIDITE);
   }
+}
 
-  if(waterInterval - previousWaterInterval >= waterInterval) {
-    
-  }
+void SetupPins() {
+  pinDico.set(0, {0, A0, A1, false});
+  pinDico.set(1, {1, A2, A3, false});
+  pinDico.set(2, {2, A4, A5, false});
 }

@@ -12,16 +12,16 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
 
-public class MqttHelper {
+public class PlantomaticMQTT {
     public MqttAndroidClient mqttAndroidClient;
-
     final String serverUri = "tcp://test.mosquitto.org:1883";
-
     final String clientId = "ExampleAndroidClient";
     final String subscriptionTopic = "plantomatic_hygro/return";
+    final String publishingTopic = "plantomatic_hygro/cmd";
 
-    public MqttHelper(Context context){
+    public PlantomaticMQTT(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
@@ -101,6 +101,28 @@ public class MqttHelper {
         } catch (MqttException ex) {
             System.err.println("Exception whilst subscribing");
             ex.printStackTrace();
+        }
+    }
+
+    public void publishToTopic(String commande) throws Exception{
+        mqttAndroidClient.publish(publishingTopic, new MqttMessage(commande.getBytes()));
+    }
+
+    public String decodeJSONHumidite(String mqttMessage) throws Exception{
+
+        String jsonString = mqttMessage;
+        JSONObject object = new JSONObject(jsonString);
+        String humidite = object.getString("HUMIDITE");
+
+        switch(humidite){
+            case "0":
+                return "Humide";
+            case "1":
+                return "Sec";
+            case "2":
+                return "Très sec";
+            default:
+                return "Indisponible";
         }
     }
 }

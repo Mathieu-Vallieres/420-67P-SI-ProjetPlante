@@ -1,7 +1,7 @@
 // Fonction pour envoyer un message via MQTT
 void SendMQTTMessage(String message) {
-
-  Serial.println("sendMQttmessage");
+  if(message == "")
+    return;
 
   // Envoi des données sur le broker
   mqttClient.beginMessage(RETURNTopic);
@@ -9,13 +9,11 @@ void SendMQTTMessage(String message) {
   mqttClient.endMessage();
 }
 
-void SendMQTTCommand(CommandType type) {
+void SendMQTTCommand(int id, CommandType type) {
   if(type == NONE)
     return;
 
-  Serial.println("trezad");
-
   mqttClient.beginMessage(CMDTopic);
-  mqttClient.print("{CMD:" + CommandToString(type) + "}");
+  mqttClient.print("{ID:" + String(id) + ",CMD:" + CommandToString(type) + "}");
   mqttClient.endMessage();
 }
