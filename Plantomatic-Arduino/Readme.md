@@ -17,6 +17,8 @@
 - 1 Bouche d'irrigation
 - plusieurs risselants
 
+![Plan de l'arduino](https://github.com/Mathieu-Vallieres/420-67P-SI-ProjetPlante/assets/75104224/c1bb668c-483c-457e-bdce-6ce80a84e054)
+
 
 ## MQTT
 
