@@ -1,8 +1,9 @@
-# Projet utilisé par DFRobot
+# Documentation Arduino
+## Projet utilisé pour exemple
       
-[Liens Projet]"https://community.dfrobot.com/makelog-312988.html"
+[Lien du projet](https://community.dfrobot.com/makelog-312988.html)
 
-# Pièce requise pour faire notre projet:
+## Pièce requise pour faire notre projet
 
 - 1 MKR1010 WIFI
 - 1 Capteur sans-contact de capacité de liquide
@@ -17,11 +18,11 @@
 - plusieurs risselants
 
 
-# MQTT:
+## MQTT
 
 Version MQTT : 5
 
-Broker MQTT: [test.mosquitto.org]"test.mosquitto.org"
+Broker MQTT: [test.mosquitto.org](https://test.mosquitto.org)
 
 Port Broker: "1883"
 
@@ -29,10 +30,10 @@ Sujet Broker:
 
 "plantomatic_hygro/CMD"
 
-    publisheur: Android
-    Subscribeur: Arduino
+ - publisheur: Android
+ - Subscribeur: Arduino
   
 "plantomatic_hygro/RETURN"
 
-    publisheur: Arduino
-    Subscribeur: Android
+ - publisheur: Arduino
+ - Subscribeur: Android
