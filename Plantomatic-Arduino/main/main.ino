@@ -93,5 +93,9 @@ void loop() {
 }
 
 void SetupPins() {
-  pinDico.set(0, {0, A0, 11, false});
+  pinDico.add(0, {0, A0, 11});
+  pinDico.add(1, {1, A0, 7});
+
+  pinMode(11, OUTPUT);
+  pinMode(7, OUTPUT);
 }

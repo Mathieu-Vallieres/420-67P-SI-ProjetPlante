@@ -62,29 +62,31 @@ void TraiterMessage(int id, CommandType cmd) {
       {
         float humidite = analogRead(pStruct.capteurAnalog);
         int rValue = 0;
-        Serial.print("Récupération de l'humidité : ");
-        Serial.println(humidite);
+
+        Serial.println("Valeur de l'humidité récupéré : " + String(humidite));
         if(humidite >= 190 && humidite < 380)
         {
           rValue = 1;
         }
-
         if(humidite >= 380)
         {
           rValue = 2;
         }
-        Serial.println(rValue);
-        SendMQTTMessage("{\"id\":\""+ String(id) +"\",\"HUMIDITE\":\"" + String(rValue) + "\"}");
+        Serial.println("Valeur de retour : " + String(rValue));
+        SendMQTTReponse("{\"id\":\""+ String(id) +"\",\"HUMIDITE\":\"" + String(rValue) + "\"}");
       }
       break;
-    // Quand on veut arroser la plante
+    // Quand ouvrir la valve
     case ARROSER_ON:
       {
+        Serial.println("Identifiant : " + String(pStruct.pompeAnalog));
+
         digitalWrite(pStruct.pompeAnalog, HIGH);
         // On met le temps de l'arrosage automatique sur l'identifiant de la plante
         autoArrosage.set(id, 0);
       }
       break;
+    // Quand fermer la valve
     case ARROSER_OFF:
       {
         digitalWrite(pStruct.pompeAnalog, LOW);
@@ -92,14 +94,18 @@ void TraiterMessage(int id, CommandType cmd) {
         autoArrosage.set(id, 0);
       }
       break;
+    
+    // Quand on veut démarrer le système d'arrosage automatique de la plante
     case ARROSER_AUTO_ON:
       {
         Serial.println("ARROSER_AUTO_ON");
         autoArrosage.add(id, 0);
       }
       break;
+    // Quand on veut arreter le système d'arrosage automatique de la plante
     case ARROSER_AUTO_OFF:
       {
+        digitalWrite(pStruct.pompeAnalog, LOW);
         autoArrosage.remove(id);
       }
       break;
@@ -110,9 +116,9 @@ void TraiterMessage(int id, CommandType cmd) {
   Serial.println("");
 }
 
-// Fonction pour mettre en place le système d'écoute
+// Fonction pour mettre en place le système d'écoute sur le topic des commandes
 void SetupMQTTSubscribe() {
-  Serial.println("Subscribe to MQTT");
+  Serial.println("Abonné au broker MQTT");
 
   mqttClient.onMessage(OnMqttMessage);
   mqttClient.subscribe(CMDTopic);
