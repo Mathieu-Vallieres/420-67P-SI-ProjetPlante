@@ -1,25 +1,16 @@
 package net.info420.plantomatic;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,47 +27,117 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
+/**
+ * Classe gérant l'activité d'affichage des plantes
+ */
 public class ActiviteAffichage extends AppCompatActivity implements View.OnClickListener{
 
+    /**
+     * TAG de l'activité
+     */
     public final String TAG = "affichage";
 
+    /**
+     * Tirroir sur le coté
+     */
     DrawerLayout drawerLayout;
+    /**
+     * La vue de navigation de l'actvvité
+     */
     NavigationView navigationView;
-    Toolbar toolbar;
+    /**
+     * la barre d'action du tirroir
+     */
     ActionBarDrawerToggle actionBarDrawerToggle;
+    /**
+     * Zone de texte pour le nom de la plante
+     */
     EditText editTextNomPlante;
+    /**
+     * ZOne de texte pour l'humidité de la plante
+     */
     EditText editTextHumidite;
+    /**
+     * Zone de texte pour la quantité d'eau de la plante
+     */
     EditText editTextQuantiteEau;
+    /**
+     * Bouton pour aller chercher une photo de la plante
+     */
     Button boutonPhotoPlante;
+    /**
+     * Vue sur l'image sélectionnée dans l'appareil mobile
+     */
     ImageView imageViewPhoto;
+    /**
+     * Bouton pour supprimer la photo choisie
+     */
     ImageButton boutonPoubelle;
+    /**
+     * Bouton pour enregistrer les modifications
+     */
     ImageButton boutonEnregistrer;
 
+    /**
+     * Lien vers l'acceuil dans le tirroir
+     */
     Intent intentAccueil;
+    /**
+     * Lien vers les détails dans le tirroir
+     */
     Intent intentDetails;
-    Intent intentStatistiques;
+    /**
+     * Lien vers le mode manuel dans le tirroir
+     */
     Intent intentManuel;
+    /**
+     * Lien vers les paramètres dans le tirroir
+     */
     Intent intentParametres;
+    /**
+     *  Intent pour sélectionné que les images dans la bibliothèque d'image
+     */
     Intent intentImage;
 
-    //Variables pour la savegarde du résultat dans la bd
+    /**
+     * URI de l'image à mettre dans la base de données
+     */
     private Uri imageUri;
+    /**
+     * Nom de la plante à ajouté dans la base de données
+     */
     private String NomPlante;
+    /**
+     * Quel humidité à mettre dans la base de données
+     */
     private int humidite;
+    /**
+     * quel quantité d'eau à mettre dans la base de données
+     */
     private int quantiteEau;
 
 
+    /**
+     * Évènement quand on option est choisi dans le menu
+     * @param option
+     * @return
+     */
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    public boolean onOptionsItemSelected(@NonNull MenuItem option)
     {
-        if(actionBarDrawerToggle.onOptionsItemSelected(item))
+        if(actionBarDrawerToggle.onOptionsItemSelected(option))
         {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(option);
     }
 
+    /**
+     * Démarrage de l'activité
+     * @param savedInstanceState Instance géré par le système d'exploitation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

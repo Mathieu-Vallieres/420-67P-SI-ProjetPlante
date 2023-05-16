@@ -12,17 +12,42 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Objet MQTT, permet la communication MQTT avec le broker
+ */
 public class PlantomaticMQTT {
+    /**
+     * Objet de la librairie Paho de eclispe
+     */
     public MqttAndroidClient mqttAndroidClient;
-    final String serverUri = "tcp://test.mosquitto.org:1883";
-    final String clientId = "ExampleAndroidClient";
-    final String subscriptionTopic = "plantomatic_hygro/return";
-    final String publishingTopic = "plantomatic_hygro/cmd";
+    /**
+     * Serveur du courtier
+     */
+    final String serveurURI = "tcp://test.mosquitto.org:1883";
+    /**
+     * ID du client
+     */
+    final String clientId = "AndroidClient";
+    /**
+     * Sujet d'abonnement
+     */
+    final String sujetAbonnement = "plantomatic_hygro/return";
+    /**
+     * Sujet publiement
+     */
+    final String sujetPubliement = "plantomatic_hygro/cmd";
 
+    /**
+     * Contrusteur de l'objet MQTT, ouvre la connection, se connecte et gère les callback
+     * @param context
+     */
     public PlantomaticMQTT(Context context){
-        mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
+        mqttAndroidClient = new MqttAndroidClient(context, serveurURI, clientId);
+
+        //Gabarit des callback
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
@@ -44,6 +69,8 @@ public class PlantomaticMQTT {
 
             }
         });
+
+        //Connection au courtier
         connect();
     }
 
@@ -51,14 +78,20 @@ public class PlantomaticMQTT {
         mqttAndroidClient.setCallback(callback);
     }
 
+    /**
+     * Procédure pour se connecter au courtier
+     */
     private void connect(){
+        //OPtions de connection
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setAutomaticReconnect(true); //Va essayer de se reconnecter
+        mqttConnectOptions.setCleanSession(false); //Peux commencer avec des données en attente
 
         try {
 
+            //Connection au courtier
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
+                //Quand il réussi
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
 
@@ -68,12 +101,18 @@ public class PlantomaticMQTT {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic();
+
+                    try {
+                        subscribeToTopic();//S'abonne au sujet donné
+                    } catch (MqttException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
+                // Quand il échoue
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Failed to connect to: " + serverUri + exception.toString());
+                    Log.w("Mqtt", "Failed to connect to: " + serveurURI + exception.toString());
                 }
             });
 
@@ -83,32 +122,43 @@ public class PlantomaticMQTT {
         }
     }
 
+    /**
+     * Méthode pour s'abonner a un sujet
+     */
+    private void subscribeToTopic() throws MqttException {
 
-    private void subscribeToTopic() {
-        try {
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w("Mqtt","Subscribed!");
-                }
+        //Abonnement sur le sujet
+        mqttAndroidClient.subscribe(sujetAbonnement, 0, null, new IMqttActionListener() {
+            //Quand il réussi
+            @Override
+            public void onSuccess(IMqttToken asyncActionToken) {
+                Log.w("Mqtt","Subscribed!");
+            }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Subscribed fail!");
-                }
-            });
-
-        } catch (MqttException ex) {
-            System.err.println("Exception whilst subscribing");
-            ex.printStackTrace();
-        }
+            //Quand il échoue
+            @Override
+            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                Log.w("Mqtt", "Subscribed fail!");
+            }
+        });
     }
 
-    public void publishToTopic(String commande) throws Exception{
-        mqttAndroidClient.publish(publishingTopic, new MqttMessage(commande.getBytes()));
+    /**
+     * Méthode pour publier sur un sujet
+     * @param commande Commande à envoyé sur le sujet
+     * @throws MqttException Erreur de MQTT
+     */
+    public void publishToTopic(String commande) throws MqttException{
+        mqttAndroidClient.publish(sujetPubliement, new MqttMessage(commande.getBytes()));
     }
 
-    public String decodeJSONHumidite(String mqttMessage) throws Exception{
+    /**
+     * Fonction pour récupéré et décodé le JSON contenant l'humidité
+     * @param mqttMessage Le message recu
+     * @return À quel point la plante est humide, peut être: très sec, sec, humide ou indisponible
+     * @throws JSONException erreur sur le JSON
+     */
+    public String decodeJSONHumidite(String mqttMessage) throws JSONException{
 
         String jsonString = mqttMessage;
         JSONObject object = new JSONObject(jsonString);
