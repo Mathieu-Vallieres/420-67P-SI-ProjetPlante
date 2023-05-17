@@ -44,6 +44,16 @@ public class BD_Plantes {
         db.insertWithOnConflict(TABLE_NAME, null, fieldsValues, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
+    public void modifier (String id, Uri imagePlante, String nomPlante, String arrosageAuto){
+        ContentValues fieldsValues = new ContentValues();
+        db = dbHelper.getWritableDatabase();
+        fieldsValues.put(C_IMAGE, imagePlante.toString());
+        fieldsValues.put(C_NOMPLANTE, nomPlante);
+        fieldsValues.put(C_ARROSAGEAUTO, arrosageAuto);
+
+        db.update(TABLE_NAME, fieldsValues, id, null);
+    }
+
     public Cursor query(){
         Cursor cursor;
         db = dbHelper.getReadableDatabase();
