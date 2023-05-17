@@ -129,31 +129,26 @@ public class ActiviteModeManuel extends AppCompatActivity {
         });
 
         // Listener du menu de navigation
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                //Switch pour les différents items du menu
-                switch (item.getItemId())
-                {
-                    //Cas de l'activité principal, on ferme le tirroir et on lance l'activité
-                    case R.id.item_activitePrincipale:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentAccueil);
-                        break;
-                    //Si on est déjà dans l'activité mode manuel, on ferme le tirroir
-                    case R.id.item_activiteModeManuel:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                    //Cas de l'activité paramètres, on ferme le tirroir et on lance l'activité
-                    case R.id.item_activiteParametres:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(intentParametres);
-                        break;
-                }
-                return true;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            //Switch pour les différents items du menu
+            switch (item.getItemId())
+            {
+                //Cas de l'activité principal, on ferme le tirroir et on lance l'activité
+                case R.id.item_activitePrincipale:
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    startActivity(intentAccueil);
+                    break;
+                //Si on est déjà dans l'activité mode manuel, on ferme le tirroir
+                case R.id.item_activiteModeManuel:
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    break;
+                //Cas de l'activité paramètres, on ferme le tirroir et on lance l'activité
+                case R.id.item_activiteParametres:
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    startActivity(intentParametres);
+                    break;
             }
+            return true;
         });
 
 
@@ -182,32 +177,28 @@ public class ActiviteModeManuel extends AppCompatActivity {
             public void deliveryComplete(IMqttDeliveryToken token) { }
         });
 
-        //Listener du bouton pour arroser
-        btnArroser.setOnTouchListener(new View.OnTouchListener() {
-           // Au toucher
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                // Si je maintient le bouton enfoncé
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
-                    try {
-                        //Envoi d'ouvrir la valve
-                        plantomaticMQTT.publishToTopic("{CMD:ARROSER_ON}");
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                // Si je relache le bouton
-                else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    try {
-                        //Envoi de fermé la valve
-                        plantomaticMQTT.publishToTopic("{CMD:ARROSER_OFF}");
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                //Tout les autres cas, il ne se passe rien
-                return false;
-            }
-        });
+        //Listener du bouton pour arrose au toucher
+        btnArroser.setOnTouchListener((view, motionEvent) -> {
+             // Si je maintient le bouton enfoncé
+             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                 try {
+                     //Envoi d'ouvrir la valve
+                     plantomaticMQTT.publishToTopic("{CMD:ARROSER_ON}");
+                 } catch (Exception e) {
+                     throw new RuntimeException(e);
+                 }
+             // Si je relache le bouton
+             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                 try {
+                     //Envoi de fermé la valve
+                     plantomaticMQTT.publishToTopic("{CMD:ARROSER_OFF}");
+                 } catch (Exception e) {
+                     throw new RuntimeException(e);
+                 }
+             }
+             //Tout les autres cas, il ne se passe rien
+             return false;
+         });
     }
 
     /**

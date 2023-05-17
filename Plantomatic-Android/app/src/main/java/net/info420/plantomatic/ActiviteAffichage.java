@@ -28,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.ToIntBiFunction;
 
 
 /**
@@ -95,9 +96,10 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
     /**
      * Nom de la plante à ajouté dans la base de données
      */
+    Integer idPlante;
     private String NomPlante;
-    private String arrosageAutomatique;
     SwitchMaterial switchArrosageAutomatique;
+    Boolean modification = false;
 
 
     /**
@@ -144,18 +146,22 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            int idPlante = extras.getInt("idPlante");
+            modification = true;
+            idPlante = extras.getInt("idPlante");
             String nomPlante = extras.getString("nomPlante");
-            int humidite = extras.getInt("humidity");
-            int quantiteEau = extras.getInt("mlEau");
+            String arrosageAutomatique = extras.getString("arrosageAutomatique");
             String uri = extras.getString("imagePlante");
 
+
             editTextNomPlante.setText(nomPlante);
+            switchArrosageAutomatique.setChecked(Boolean.parseBoolean(arrosageAutomatique));
 
             if(uri != null)
             {
-                imageUri = Uri.parse(uri);
-                imageViewPhoto.setImageURI(imageUri);
+                //Mettre l'image dans l'imageView a partir de l'url de l'image
+                imageViewPhoto.setImageURI(Uri.parse(uri));
+                //imageViewPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP); //Marche pas
+                //imageViewPhoto.setAdjustViewBounds(true); Marche pas
             }
         }
 
@@ -272,7 +278,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
 
                         //Ajout des plantes dans la bd
                         BD_Plantes bd_plantes = new BD_Plantes(this);
-                        bd_plantes.insert(uriImage,NomPlante, arrosageAutomatique);
+                        bd_plantes.insert(uriImage,NomPlante, String.valueOf(switchArrosageAutomatique.isChecked()));
                         startActivity(intentAccueil);
                     } else {
                         Log.d(TAG, "Erreur lors de l'ajout de la plante, un champ est invalide");
@@ -287,6 +293,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
                 break;
         }
     }
