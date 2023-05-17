@@ -181,18 +181,21 @@ public class ActiviteModeManuel extends AppCompatActivity {
         //Listener du bouton pour arrose au toucher
         btnArroser.setOnTouchListener((view, motionEvent) -> {
              // Si je maintient le bouton enfoncé
-             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                  try {
                      //Envoi d'ouvrir la valve
-                     plantomaticMQTT.publishToTopic("{CMD:ARROSER_ON}");
+                     plantomaticMQTT.publishToTopic("{ID:0,CMD:ARROSER_ON}");
+                     Log.i(TAG, "Ouverture de pompe");
                  } catch (Exception e) {
                      throw new RuntimeException(e);
                  }
+             }
              // Si je relache le bouton
-             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                  try {
                      //Envoi de fermé la valve
-                     plantomaticMQTT.publishToTopic("{CMD:ARROSER_OFF}");
+                     plantomaticMQTT.publishToTopic("{ID:0,CMD:ARROSER_OFF}");
+                     Log.i(TAG, "Fermeture de pompe");
                  } catch (Exception e) {
                      throw new RuntimeException(e);
                  }
