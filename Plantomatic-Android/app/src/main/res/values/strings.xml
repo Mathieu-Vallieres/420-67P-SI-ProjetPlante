@@ -6,7 +6,7 @@
     <string name="activiteAffichage">Détails</string>
     <string name="activiteModeManuel">Mode Manuel</string>
     <string name="activiteParametres">Paramètres</string>
-    
+
     <!--Activité affichage-->
     <string name="humiditePresentement">Taux d\'humidité : </string>
     <string name="dernierArrosage">Dernier arrosage le </string>
