@@ -41,7 +41,7 @@ public class PlantomaticMQTT {
     final String sujetPubliement = "plantomatic_hygro/cmd";
 
     /**
-     * Contrusteur de l'objet MQTT, ouvre la connection, se connecte et gère les callback
+     * Constructeur de l'objet MQTT, ouvre la connection, se connecte et gère les callback
      * @param context
      */
     public PlantomaticMQTT(Context context){
