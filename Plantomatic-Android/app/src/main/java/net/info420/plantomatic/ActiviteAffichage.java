@@ -18,8 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,18 +57,6 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
      */
     EditText editTextNomPlante;
     /**
-     * ZOne de texte pour l'humidité de la plante
-     */
-    EditText editTextHumidite;
-    /**
-     * Zone de texte pour la quantité d'eau de la plante
-     */
-    EditText editTextQuantiteEau;
-    /**
-     * Bouton pour aller chercher une photo de la plante
-     */
-    Button boutonPhotoPlante;
-    /**
      * Vue sur l'image sélectionnée dans l'appareil mobile
      */
     ImageView imageViewPhoto;
@@ -78,7 +68,6 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
      * Bouton pour enregistrer les modifications
      */
     ImageButton boutonEnregistrer;
-
     /**
      * Lien vers l'acceuil dans le tirroir
      */
@@ -99,7 +88,6 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
      *  Intent pour sélectionné que les images dans la bibliothèque d'image
      */
     Intent intentImage;
-
     /**
      * URI de l'image à mettre dans la base de données
      */
@@ -108,14 +96,8 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
      * Nom de la plante à ajouté dans la base de données
      */
     private String NomPlante;
-    /**
-     * Quel humidité à mettre dans la base de données
-     */
-    private int humidite;
-    /**
-     * quel quantité d'eau à mettre dans la base de données
-     */
-    private int quantiteEau;
+    private String arrosageAutomatique;
+    SwitchMaterial switchArrosageAutomatique;
 
 
     /**
@@ -130,7 +112,6 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         {
             return true;
         }
-
         return super.onOptionsItemSelected(option);
     }
 
@@ -153,13 +134,11 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
         //Assignation des variables pour les éléments du layout
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.menu_nav);
-        boutonPhotoPlante = findViewById(R.id.boutonPhotoPlante);
         boutonEnregistrer = findViewById(R.id.boutonEnregistrer);
         imageViewPhoto = findViewById(R.id.imageViewPhoto);
         boutonPoubelle = findViewById(R.id.boutonPoubelle);
         editTextNomPlante = findViewById(R.id.editTextNomPlante);
-        editTextHumidite = findViewById(R.id.editTextHumidite);
-        editTextQuantiteEau = findViewById(R.id.editTextArrosage);
+        switchArrosageAutomatique = findViewById(R.id.switchArrosageAuto);
 
         //Mettre les données en cas de modification
         Bundle extras = getIntent().getExtras();
@@ -172,8 +151,6 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
             String uri = extras.getString("imagePlante");
 
             editTextNomPlante.setText(nomPlante);
-            editTextHumidite.setText(String.valueOf(humidite));
-            editTextQuantiteEau.setText(String.valueOf(quantiteEau));
 
             if(uri != null)
             {
@@ -184,9 +161,9 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
 
 
         //Ajout des listeners pour les éléments clickables (Boutons)
-        boutonPhotoPlante.setOnClickListener(this);
         boutonPoubelle.setOnClickListener(this);
         boutonEnregistrer.setOnClickListener(this);
+        imageViewPhoto.setOnClickListener(this);
 
         //Menu de navigation
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.ouvrirMenu, R.string.fermerMenu);
@@ -240,14 +217,13 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
 
 
     //Listener pour les éléments clickables de l'interface
-    @SuppressLint("WrongConstant")
     @Override
     public void onClick(View view)
     {
         switch(view.getId())
         {
             //Bouton qui permet de sélectionner une photo
-            case R.id.boutonPhotoPlante:
+            case R.id.imageViewPhoto:
 
                 Log.d(TAG, "Choisir photo");
 
@@ -266,6 +242,8 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
             case R.id.boutonPoubelle:
                 imageUri = null;
                 imageViewPhoto.setImageDrawable(getDrawable(R.drawable.camera_transparent));
+                editTextNomPlante.setText("");
+
                 Log.d(TAG, "bouton poubelle");
                 break;
 
@@ -274,9 +252,7 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
                 try {
                     Log.d(TAG, "bouton ajouter plante");
                     NomPlante = editTextNomPlante.getText().toString();
-                    humidite = Integer.parseInt(editTextHumidite.getText().toString());
-                    quantiteEau = Integer.parseInt(editTextQuantiteEau.getText().toString());
-                    if (imageUri != null && !NomPlante.isEmpty() && humidite <= 100 && quantiteEau > 0 && humidite > 0) {
+                    if (imageUri != null && !NomPlante.isEmpty()) {
                         Log.d(TAG, "Ajout de la plante");
 
                         //Téléversement de la photo dans le dossier cache de l'app
@@ -296,10 +272,11 @@ public class ActiviteAffichage extends AppCompatActivity implements View.OnClick
 
                         //Ajout des plantes dans la bd
                         BD_Plantes bd_plantes = new BD_Plantes(this);
-                        bd_plantes.insert(uriImage,NomPlante, humidite,quantiteEau);
+                        bd_plantes.insert(uriImage,NomPlante, arrosageAutomatique);
                         startActivity(intentAccueil);
                     } else {
                         Log.d(TAG, "Erreur lors de l'ajout de la plante, un champ est invalide");
+                        Toast.makeText(this, "Erreur lors de l'ajout de la plante, un champ est invalide", Toast.LENGTH_SHORT).show();
                     }
                 } catch (SQLiteException e) {
                     Log.e(TAG, "Erreur [SQLITE] lors de l'ajout de la plante : " + e.getMessage());

@@ -38,149 +38,71 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="300dp"
-            android:layout_height="203dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/coins_arrondis"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.539"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/boutonPhotoPlante"
-            app:layout_constraintVertical_bias="0.17">
-
-            <EditText
-                android:id="@+id/editTextArrosage"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/coins_arrondis"
-                android:backgroundTint="@color/controleAdaptatif"
-                android:ems="10"
-                android:inputType="number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextHumidite" />
-
-            <EditText
-                android:id="@+id/editTextHumidite"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="200dp"
-                android:layout_marginTop="56dp"
-                android:background="@drawable/coins_arrondis"
-                android:backgroundTint="@color/controleAdaptatif"
-                android:ems="10"
-                android:inputType="number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="27dp"
-                android:text="@string/quantiteEau"
-                app:layout_constraintEnd_toStartOf="@+id/editTextArrosage"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="41dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="22dp"
-                android:text="@string/humiditeMinimale"
-                app:layout_constraintEnd_toStartOf="@+id/editTextHumidite"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNomPlante" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <EditText
                 android:id="@+id/editTextNomPlante"
                 android:layout_width="270dp"
                 android:layout_height="39dp"
-                android:layout_marginBottom="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/coins_arrondis"
                 android:backgroundTint="@color/controleAdaptatif"
                 android:ems="10"
+                android:hint="@string/nomPlante"
                 android:inputType="text"
                 android:singleLine="true"
-                android:text="@string/nomPlante"
                 android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchArrosageAuto"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/arrosageAuto"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintHorizontal_bias="0.507"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/boutonPhotoPlante"
-            android:layout_width="155dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginBottom="268dp"
-            android:backgroundTint="@color/bleuCiel"
-            android:text="@string/prendrePhoto"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/boutonIdentifier"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="0.428" />
-
         <ImageButton
             android:id="@+id/boutonPoubelle"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginEnd="52dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/coins_arrondis"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/boutonIdentifier"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:srcCompat="@drawable/poubelle1" />
-
-        <ImageButton
-            android:id="@+id/boutonIdentifier"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="17dp"
-            android:background="@drawable/coins_arrondis"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-            app:layout_constraintEnd_toStartOf="@+id/boutonPoubelle"
-            app:layout_constraintStart_toEndOf="@+id/boutonPhotoPlante"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:srcCompat="@drawable/microscope" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:srcCompat="@drawable/poubelle1"
+            android:contentDescription="@string/delete" />
 
         <ImageButton
             android:id="@+id/boutonEnregistrer"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="340dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="55dp"
             android:background="@drawable/coins_arrondis"
             android:backgroundTint="@color/bleuCiel"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/boutonPoubelle"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:srcCompat="@drawable/disquette" />
+            app:srcCompat="@drawable/disquette"
+            android:contentDescription="@string/boutonEnregistrer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

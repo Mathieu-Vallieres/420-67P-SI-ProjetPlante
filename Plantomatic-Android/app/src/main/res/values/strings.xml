@@ -32,5 +32,8 @@
     <string name="themeSombre">Mode Sombre</string>
     <string name="paramUsine">Rétablir l\'application aux paramètres par défaut</string>
     <string name="modeDemo">Mode démo</string>
+    <string name="arrosageAuto">Arrosage automatique</string>
+    <string name="boutonEnregistrer">Enregistrer</string>
+    <string name="delete">Supprimer</string>
 
 </resources>

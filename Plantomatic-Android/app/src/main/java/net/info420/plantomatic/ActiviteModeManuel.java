@@ -8,12 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +64,6 @@ public class ActiviteModeManuel extends AppCompatActivity {
      * Lien vers les paramètres dans le tirroir
      */
     Intent intentParametres;
-
     /**
      * Liste ou se trouvent les plantes enregistrés
      */
@@ -74,7 +76,15 @@ public class ActiviteModeManuel extends AppCompatActivity {
      * Boite de texte contenant l'humidite recu par le capteur
      */
     TextView txtViewHumidite;
-    @SuppressLint("MissingInflatedId")
+
+    Cursor curseur;
+    SimpleCursorAdapter adapteur;
+    MyViewBinder viewBinder;
+    static final String[] from = { BD_Plantes.C_IMAGE, BD_Plantes.C_NOMPLANTE };
+    static final int[] to = { R.id.row_listePlante_Image, R.id.row_listePlante_Nom };
+
+
+    @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility", "Range"})
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,37 +99,54 @@ public class ActiviteModeManuel extends AppCompatActivity {
 
         //Liaison des variables aux éléments du layout
         listViewPlantes = findViewById(R.id.listePlantes);
-        listViewPlantes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.menu_nav);
         btnArroser = findViewById(R.id.btnAjouterPlante);
         txtViewHumidite = findViewById(R.id.TextViewQuantiteMl);
 
+        //Ouverture du menu navigation et ajout du bouton pour l'ouvrir dans la barre d'action
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.ouvrirMenu, R.string.fermerMenu);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Ouverture de la BD
+        curseur = this.getBD_Plantes().query();
+        adapteur = new SimpleCursorAdapter(this, R.layout.layout_row_listeplante, curseur, from, to, 0);
+        viewBinder = new MyViewBinder();
+        adapteur.setViewBinder(viewBinder);
+        listViewPlantes.setAdapter(adapteur);
 
-        // Mise en place du listener actiion sur le tirroir
+        // Listner de la listview
+        listViewPlantes.setOnItemClickListener((parent, view, position, id) -> {
+            Log.i("ActivitePrincipale", "Position: " + position + " id: " + id);
+            Intent intent = new Intent(this, ActiviteAffichage.class);
+            Cursor c = (Cursor) listViewPlantes.getItemAtPosition(position);
+            intent.putExtra("idPlante", c.getInt(c.getColumnIndex(BD_Plantes.C_ID)));
+            intent.putExtra("nomPlante", c.getString(c.getColumnIndex(BD_Plantes.C_NOMPLANTE)));
+            intent.putExtra("imagePlante", c.getString(c.getColumnIndex(BD_Plantes.C_IMAGE)));
+            startActivity(intent);
+        });
+
+        // Listener du menu de navigation
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                // selon l'option choisi dans le menu
+                //Switch pour les différents items du menu
                 switch (item.getItemId())
                 {
+                    //Cas de l'activité principal, on ferme le tirroir et on lance l'activité
                     case R.id.item_activitePrincipale:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         startActivity(intentAccueil);
                         break;
-
-                        // pas besoin de commencer de nouvelle activité sur celui-ci
-                        // juste besoin de refermé le tirroir
+                    //Si on est déjà dans l'activité mode manuel, on ferme le tirroir
                     case R.id.item_activiteModeManuel:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
+                    //Cas de l'activité paramètres, on ferme le tirroir et on lance l'activité
                     case R.id.item_activiteParametres:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         startActivity(intentParametres);
@@ -197,5 +224,17 @@ public class ActiviteModeManuel extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(option);
+    }
+
+    public BD_Plantes getBD_Plantes()
+    {
+        return new BD_Plantes(this);
+    }
+
+    private class MyViewBinder implements SimpleCursorAdapter.ViewBinder {
+        @Override
+        public boolean setViewValue(View view, Cursor cursor, int fieldIndex) {
+            return false;
+        }
     }
 }
