@@ -21,4 +21,7 @@
     <string name="themeSombre">Dark Mode</string>
     <string name="paramUsine">Reset application settings</string>
     <string name="modeDemo">Demo mode</string>
+    <string name="arrosageAuto">Automatic watering</string>
+    <string name="boutonEnregistrer">Save</string>
+    <string name="delete">Delete</string>
 </resources>

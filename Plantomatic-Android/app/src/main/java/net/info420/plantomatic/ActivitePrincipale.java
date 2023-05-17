@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.Settings;
@@ -57,6 +58,7 @@ public class ActivitePrincipale extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,8 +117,6 @@ public class ActivitePrincipale extends AppCompatActivity {
             intent.putExtra("idPlante", c.getInt(c.getColumnIndex(BD_Plantes.C_ID)));
             intent.putExtra("nomPlante", c.getString(c.getColumnIndex(BD_Plantes.C_NOMPLANTE)));
             intent.putExtra("imagePlante", c.getString(c.getColumnIndex(BD_Plantes.C_IMAGE)));
-            intent.putExtra("humidity", c.getString(c.getColumnIndex(BD_Plantes.C_HUMIDITY)));
-            intent.putExtra("mlEau", c.getString(c.getColumnIndex(BD_Plantes.C_ML_EAU)));
             startActivity(intent);
         });
     }

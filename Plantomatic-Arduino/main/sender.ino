@@ -1,5 +1,5 @@
 // Fonction pour envoyer un message via MQTT
-void SendMQTTMessage(String message) {
+void SendMQTTReponse(String message) {
   if(message == "")
     return;
 
@@ -8,6 +8,7 @@ void SendMQTTMessage(String message) {
   mqttClient.print(message);
   mqttClient.endMessage();
 }
+
 
 void SendMQTTCommand(int id, CommandType type) {
   if(type == NONE)
