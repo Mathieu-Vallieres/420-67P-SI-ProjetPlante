@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 /**
@@ -161,13 +162,14 @@ public class ActiviteModeManuel extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 // Si je maintient le bouton enfoncé
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     try {
                         //Envoi d'ouvrir la valve
                         plantomaticMQTT.publishToTopic("{CMD:ARROSER_ON}");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
+                }
                 // Si je relache le bouton
                 else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     try {

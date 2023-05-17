@@ -101,12 +101,8 @@ public class PlantomaticMQTT {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
+                    subscribeToTopic();//S'abonne au sujet donné
 
-                    try {
-                        subscribeToTopic();//S'abonne au sujet donné
-                    } catch (MqttException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
 
                 // Quand il échoue
@@ -125,22 +121,26 @@ public class PlantomaticMQTT {
     /**
      * Méthode pour s'abonner a un sujet
      */
-    private void subscribeToTopic() throws MqttException {
+    private void subscribeToTopic() {
 
         //Abonnement sur le sujet
-        mqttAndroidClient.subscribe(sujetAbonnement, 0, null, new IMqttActionListener() {
-            //Quand il réussi
-            @Override
-            public void onSuccess(IMqttToken asyncActionToken) {
-                Log.w("Mqtt","Subscribed!");
-            }
+        try {
+            mqttAndroidClient.subscribe(sujetAbonnement, 0, null, new IMqttActionListener() {
+                //Quand il réussi
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    Log.w("Mqtt","Subscribed!");
+                }
 
-            //Quand il échoue
-            @Override
-            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                Log.w("Mqtt", "Subscribed fail!");
-            }
-        });
+                //Quand il échoue
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    Log.w("Mqtt", "Subscribed fail!");
+                }
+            });
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -148,7 +148,7 @@ public class PlantomaticMQTT {
      * @param commande Commande à envoyé sur le sujet
      * @throws MqttException Erreur de MQTT
      */
-    public void publishToTopic(String commande) throws MqttException{
+    public void publishToTopic(String commande) throws Exception{
         mqttAndroidClient.publish(sujetPubliement, new MqttMessage(commande.getBytes()));
     }
 
@@ -158,10 +158,9 @@ public class PlantomaticMQTT {
      * @return À quel point la plante est humide, peut être: très sec, sec, humide ou indisponible
      * @throws JSONException erreur sur le JSON
      */
-    public String decodeJSONHumidite(String mqttMessage) throws JSONException{
+    public String decodeJSONHumidite(String mqttMessage) throws Exception{
 
-        String jsonString = mqttMessage;
-        JSONObject object = new JSONObject(jsonString);
+        JSONObject object = new JSONObject(mqttMessage);
         String humidite = object.getString("HUMIDITE");
 
         switch(humidite){
