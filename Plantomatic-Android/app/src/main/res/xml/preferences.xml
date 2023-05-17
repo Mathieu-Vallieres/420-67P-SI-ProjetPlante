@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="demo"
         android:title="@string/modeDemo"
         android:visibility="visible" />
-    <CheckBoxPreference
+    <Preference
         android:defaultValue="false"
         android:key="usine"
         android:title="@string/paramUsine" />
